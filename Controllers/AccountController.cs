@@ -21,6 +21,10 @@ namespace PharmacyManagement.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
         [HttpPost]
         public bool Login(LoginModel model)
         {
