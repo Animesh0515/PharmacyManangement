@@ -8,12 +8,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <title>Signup</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
-    <script src="~/Scripts/App/LoginController.js"></script>
+    <script src="~/Scripts/App/SignupController.js"></script>
     <style>
         /* Add some custom styles to make the login page more visually appealing */
         body {
@@ -38,7 +38,7 @@
         }
 
         .form-control {
-            border-radius: 25px;
+            border-radius: 5px;
         }
 
         .btn {
@@ -75,31 +75,53 @@
     </style>
 </head>
 <body ng-app="myApp">
-    <div class="container mt-5" ng-controller="LoginController">
+    <div class="container mt-5" ng-controller="SignupController">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="login-form-container">
                     <img src="/Assets/Logo/logo.jpg" alt="Brand Logo" class="brand-logo">
-                    <h2>Login</h2>
+                    <h2>Sign Up</h2>
                     <div class="alert alert-danger" role="alert" ng-if="showError">
-                       {{errorMessage}}
+                        {{errorMessage}}
                     </div>
-                    <p>Please enter your username and password to log in.</p>
+                    <p>Please enter your details.</p>
                     <form ng-submit="submitForm()" name="myForm">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
+                            <label for="username">Full Name</label>
+                            <input type="text" class="form-control" ng-model="Name" placeholder="Enter username" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="MobileNumber">Contact Number</label>
+                            <input type="text" class="form-control" ng-model="MobileNumber" placeholder="Enter Contact Number" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="Address">Address</label>
+                            <input type="text" class="form-control" ng-model="Address" placeholder="Enter Address" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="Email">Email</label>
+                            <input type="email" class="form-control" ng-model="Email" placeholder="Enter Email" required>
+                        </div>
+                        <div class="form-group mb-4">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" ng-model="username" placeholder="Enter username" required>
+                            <input type="text" class="form-control" ng-model="Username" placeholder="Enter Email" required>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" ng-model="password" placeholder="Enter password" required>
+                            <input type="password" class="form-control" ng-model="Password" placeholder="Enter password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Login</button> OR  <a href="/Account/Signup">Signup</a>
+                        <div class="form-group mb-4">
+                            <label for="Role">Role</label>
+                            <select class="form-select" ng-model="Role" aria-label="Floating label select example" required>
+                                <option value="P">Pharmacist</option>
+                                <option value="C">Cashier</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Signup</button> OR  <a href="/Account/Login">Login</a>
                     </form>
                 </div>
             </div>
         </div>
-    </div>    
-
+    </div>
 </body>
 </html>

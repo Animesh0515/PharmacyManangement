@@ -38,14 +38,22 @@ namespace PharmacyManagement.Controllers
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
-                        var userPassword=cmd.ExecuteScalar().ToString();
-                        if (encodedPasssword == userPassword)
+                        var userPassword=cmd.ExecuteScalar();
+                        if (userPassword != null)
                         {
-                            return true;
+                            if (encodedPasssword == userPassword.ToString())
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         else
                         {
                             return false;
+
                         }
 
                     }
@@ -60,6 +68,10 @@ namespace PharmacyManagement.Controllers
             }
         }
 
+        public ActionResult Signup()
+        {
+            return View();
+        }
         [HttpPost]
         public bool Signup(UserModel users)
         {
