@@ -34,26 +34,37 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select password from users where username='"+model.Username+"'";
+                    string query = "Select UserId,UserName,Password,Role from users where username='"+model.Username+"' and DeletedFlag='N'";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
-                        var userPassword=cmd.ExecuteScalar();
-                        if (userPassword != null)
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            if (encodedPasssword == userPassword.ToString())
+                            while (reader.Read())
                             {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
+                                var userPassword = reader[2].ToString();
+                                if (userPassword != null)
+                                {
+                                    if (encodedPasssword == userPassword.ToString())
+                                    {
+                                        Session["UserId"] = int.Parse(reader[0].ToString());
+                                        Session["Username"] = reader[1].ToString();
+                                        Session["Role"] = reader[3].ToString();
+                                        Session["IsLoggedIn"] = true;
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    return false;
 
+                                }
+                            }
+                            return false;
                         }
 
                     }
@@ -72,6 +83,8 @@ namespace PharmacyManagement.Controllers
         {
             return View();
         }
+
+        //Need to check username
         [HttpPost]
         public bool Signup(UserModel users)
         {

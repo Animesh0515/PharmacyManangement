@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "EditSupplier";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/SupplierController.js"></script>
+</head>
+<div ng-app="myApp">
+    <div class="bg-dark">
+        <h2 style="color: white; text-align: -webkit-center;">Edit Supplier</h2>
+    </div>
+     <div ng-controller="SupplierController" ng-init="getSupplier()">
+         <div class="alert alert-danger" role="alert" ng-if="showError">
+             {{errorMessage}}
+         </div>
+         <table class="table table-striped">
+             <thead>
+                 <tr>
+                     <th scope="col">Id</th>
+                     <th scope="col">Supplier Name</th>
+                     <th scope="col">Contact Number</th>
+                     <th scope="col">Address</th>
+                     <th scope="col">Email</th>
+                     <th scope="col">CreatedDate</th>
+                     <th scope="col">Action</th>
+                 </tr>
+             </thead>
+             <tbody class="table-group-divider">
+                 <tr  ng-if="SupplierList.length >0" ng-repeat="(key, value) in SupplierList ">
+                     <th scope="row">{{key+1}}</th>
+                     <td style="display:none;">{{value.SupplierId}}</td>
+                     <td>{{value.SupplierName}}</td>
+                     <td>{{value.ContactNumber}}</td>
+                     <td>{{value.Address}}</td>
+                     <td>{{value.Email}}</td>
+                     <td>{{value.CreatedDate | date:'yyyy-MM-dd'}}</td>
+                     <td><a><i class="fs-5 bi-pencil-square" style="color: #0d6efd;"></i></a></td>
+                     
+                 </tr>  
+                 <tr ng-if="SupplierList.length ===0" >
+                     
+                     <td colspan="7" style="text-align: center;">No Data Found</td>
+                     
+                 </tr>
+             </tbody>
+         </table>
+     </div>
+</div>

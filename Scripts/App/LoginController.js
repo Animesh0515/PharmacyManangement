@@ -16,7 +16,7 @@
                 data: model
             }).then(function (response) {
                 if (response.data=="True") {
-                    $window.open('/Home/Index', '_self');
+                    $window.open('/Home/Dashboard', '_self');
                 }
                 else {
                     $scope.showError = true;

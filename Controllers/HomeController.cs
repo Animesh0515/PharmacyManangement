@@ -13,6 +13,11 @@ namespace PharmacyManagement.Controllers
             return View();
         }
 
+
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

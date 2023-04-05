@@ -2,10 +2,11 @@
 
     $scope.submitForm = function () {
         var mobilenumber = parseInt($scope.MobileNumber);
+        //Checking if ContactNumber enter is number
         if (isNaN(mobilenumber)) {
             $scope.showError = true;
             $scope.errorMessage = "Not a valid contact number.";
-        } else if ($scope.MobileNumber.toString().length != 10) {
+        } else if ($scope.MobileNumber.toString().length != 10) {  /*Checking Length of Number to be 10 digit*/
             $scope.showError = true;
             $scope.errorMessage = "Not a valid contact number. Must be 10 digit";
         }
@@ -25,6 +26,8 @@
                 "Password": $scope.Password,
                 "Role": $scope.Role,
             };
+
+            //sending data to controller
             $http({
                 method: 'POST',
                 url: '/Account/Signup',
