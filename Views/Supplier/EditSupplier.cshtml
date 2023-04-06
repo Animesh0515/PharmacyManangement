@@ -4,49 +4,73 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
-    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />   
+    @*<link href="~/Content/style.css" rel="stylesheet" />*@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     <script src="~/Scripts/App/SupplierController.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <style>
+        .form-control {
+            width:70% !important;
+        }
+    </style>
+
 </head>
 <div ng-app="myApp">
     <div class="bg-dark">
         <h2 style="color: white; text-align: -webkit-center;">Edit Supplier</h2>
     </div>
-     <div ng-controller="SupplierController" ng-init="getSupplier()">
-         <div class="alert alert-danger" role="alert" ng-if="showError">
-             {{errorMessage}}
-         </div>
-         <table class="table table-striped">
-             <thead>
-                 <tr>
-                     <th scope="col">Id</th>
-                     <th scope="col">Supplier Name</th>
-                     <th scope="col">Contact Number</th>
-                     <th scope="col">Address</th>
-                     <th scope="col">Email</th>
-                     <th scope="col">CreatedDate</th>
-                     <th scope="col">Action</th>
-                 </tr>
-             </thead>
-             <tbody class="table-group-divider">
-                 <tr  ng-if="SupplierList.length >0" ng-repeat="(key, value) in SupplierList ">
-                     <th scope="row">{{key+1}}</th>
-                     <td style="display:none;">{{value.SupplierId}}</td>
-                     <td>{{value.SupplierName}}</td>
-                     <td>{{value.ContactNumber}}</td>
-                     <td>{{value.Address}}</td>
-                     <td>{{value.Email}}</td>
-                     <td>{{value.CreatedDate | date:'yyyy-MM-dd'}}</td>
-                     <td><a><i class="fs-5 bi-pencil-square" style="color: #0d6efd;"></i></a></td>
-                     
-                 </tr>  
-                 <tr ng-if="SupplierList.length ===0" >
-                     
-                     <td colspan="7" style="text-align: center;">No Data Found</td>
-                     
-                 </tr>
-             </tbody>
-         </table>
-     </div>
+    <div ng-controller="SupplierController" ng-init="getSupplier()">
+        <div class="alert alert-danger" role="alert" ng-if="showError">
+            {{errorMessage}}
+        </div>
+        <div class="alert alert-success" role="alert" ng-if="showSuccess">
+            Supplier Edited Sucessfully! Reloading Please Wait .....
+        </div>
+        <input type="text" ng-model="searchText">
+        <input type="text" ng-model="searchDate">
+        <button ng-click="sortAsc()">Asc order</button>
+        <button ng-click="sortDesc()">Desc order</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Supplier Name</th>
+                    <th scope="col">Contact Number</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">CreatedDate</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr ng-if="SupplierList.length >0" ng-repeat="(key, value) in SupplierList | filter:searchText | filter:{CreatedDate:searchDate} | orderBy:createdDate">
+                    <th scope="row">{{key+1}}</th>
+                    <td hidden><input type="text" class="form-control" ng-model="value.SupplierId" value={{value.SupplierId}} ng-disabled="!value.editing"></td>
+                    <td><input type="text" class="form-control" ng-model="value.SupplierName" value={{value.SupplierName}} ng-disabled="!value.editing"></td>
+                    <td><input type="text" class="form-control" ng-model="value.ContactNumber" value={{value.ContactNumber}} ng-disabled="!value.editing"></td>
+                    <td><input type="text" class="form-control" ng-model="value.Address" value={{value.Address}} ng-disabled="!value.editing"></td>
+                    <td><input type="text" class="form-control" ng-model="value.Email" value={{value.Email}} ng-disabled="!value.editing"></td>
+                    <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
+                    <td>
+                        <a>
+                            <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editSupplier(value)" ng-show="!value.editing"></i>
+                            <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveSupplier(value)" ng-show="value.editing"></i>
+                            <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
+                        </a>
+                    </td>
+
+
+
+
+                </tr>
+                <tr ng-if="SupplierList.length ===0">
+
+                    <td colspan="7" style="text-align: center;">No Data Found</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

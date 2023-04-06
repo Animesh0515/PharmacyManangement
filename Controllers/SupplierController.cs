@@ -45,7 +45,7 @@ namespace PharmacyManagement.Controllers
             }
         }
 
-
+        [HttpGet]
         public ActionResult EditSupplier()
         {
             return View();
@@ -59,7 +59,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select SupplierId, SupplierName,Email,Address,ContactNumber,CreatedDate from Suppliers where DeletedFlag='N' ";
+                    string query = "Select SupplierId, SupplierName,Email,Address,ContactNumber,CreatedDate from Suppliers where DeletedFlag='N' order by CreatedDate desc ";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -73,7 +73,7 @@ namespace PharmacyManagement.Controllers
                                 model.Email = reader[2].ToString();
                                 model.Address = reader[3].ToString();
                                 model.ContactNumber = int.Parse(reader[4].ToString());
-                                model.CreatedDate = DateTime.Parse(reader[5].ToString());
+                                model.CreatedDate = DateTime.Parse(reader[5].ToString()).ToString("yyyy-MM-dd");                                
                                 modelList.Add(model);
                             }
                         }
@@ -88,6 +88,30 @@ namespace PharmacyManagement.Controllers
 
             }
 
+        }
+
+        [HttpPost]
+        public bool EditSupplier(SupplierModel model)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "Update Suppliers  set SupplierName='"+model.SupplierName+"', ContactNumber='"+model.ContactNumber+"',Address='"+model.Address+"',Email='"+model.Email+"' where SupplierId="+model.SupplierId+"";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 
