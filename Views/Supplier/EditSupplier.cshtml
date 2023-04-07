@@ -5,7 +5,7 @@
 }
 <head>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />   
-    @*<link href="~/Content/style.css" rel="stylesheet" />*@
+    <link href="~/Content/style.css" rel="stylesheet" />
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     <script src="~/Scripts/App/SupplierController.js"></script>
@@ -13,6 +13,11 @@
     <style>
         .form-control {
             width:70% !important;
+        }
+
+        i:hover {
+            color: black !important;
+            cursor: pointer;
         }
     </style>
 
@@ -28,7 +33,66 @@
         <div class="alert alert-success" role="alert" ng-if="showSuccess">
             Supplier Edited Sucessfully! Reloading Please Wait .....
         </div>
-        <input type="text" ng-model="searchText">
+
+
+        <div class="container mt-4">
+            <div class="pb-5" style="width:120%;" >
+                <i class="fs-5 bi bi-arrow-repeat" style="float:right; color: #0d6efd;" title="Refresh" onclick="location.reload();"></i>
+            </div>
+        <div class="row mb-3 mx-0" style="width:121%;">
+            <div class="col">
+                <label>Search by Name</label>
+                <input type="text" class="form-control mb-2" ng-model="searchText" placeholder="Search by Supplier Name or Email">
+            </div>
+            <div class="col">
+                <label>Search by Date</label>
+                <input type="date" class="form-control mb-2" ng-model="searchDate" placeholder="Search by Created Date (yyyy-MM-dd)">
+            </div>
+            <div class="col-auto">
+                <label class="px-4">Order by CreatedDate</label><br />
+                <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
+                <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
+            </div>
+        </div>
+        </div>
+        <div class="m-2">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Supplier Name</th>
+                        <th scope="col">Contact Number</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="SupplierList.length >0" ng-repeat="(key, value) in SupplierList | filter:searchText | filter:{CreatedDate:(searchDate| date:'yyyy-MM-dd')} | orderBy:createdDate">
+                        <th scope="row">{{key+1}}</th>
+                        <td hidden><input type="text" class="form-control" ng-model="value.SupplierId" value={{value.SupplierId}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.SupplierName" value={{value.SupplierName}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.ContactNumber" value={{value.ContactNumber}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Address" value={{value.Address}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Email" value={{value.Email}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
+                        <td>
+                            <a>
+                                <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editSupplier(value)" ng-show="!value.editing"></i>
+                                <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveSupplier(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-if="SupplierList.length ===0">
+                        <td colspan="7" style="text-align: center;">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @*<input type="text" ng-model="searchText">
         <input type="text" ng-model="searchDate">
         <button ng-click="sortAsc()">Asc order</button>
         <button ng-click="sortDesc()">Desc order</button>
@@ -71,6 +135,6 @@
 
                 </tr>
             </tbody>
-        </table>
+        </table>*@
     </div>
 </div>
