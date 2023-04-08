@@ -89,6 +89,14 @@ input[type="date"] {
     font-size: 14px;
     padding: 10px;
 }
+input[type="number"] {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    padding: 10px;
+}
 
 .table {
     width: 100%;
@@ -146,3 +154,13 @@ input[type="date"] {
     .table-primary tbody + tbody {
         border-color: #7abaff;
     }
+
+
+i {
+    color: #0d6efd;
+}
+
+i:hover {
+  color: black !important;
+  cursor: pointer;
+}

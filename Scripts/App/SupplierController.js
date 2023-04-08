@@ -27,12 +27,17 @@
             }).then(function (response) {
                 if (response.data == "True") {
                     $scope.showSuccess = true;
+                    $timeout(function () {
+                        $window.location.reload();
+                    }, 2000);
                 }
                 else {
+                    $scope.showSuccess = false;
                     $scope.showError = true;
                     $scope.errorMessage = "Error while adding supplier. Contact Admin";
                 }
             }, function (response) {
+                $scope.showSuccess = false;
                 $scope.showError = true;
                 $scope.errorMessage = "Something Went Wrong. Contact Admin";
             });

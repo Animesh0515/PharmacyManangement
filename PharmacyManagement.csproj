@@ -130,12 +130,16 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MedicineController.cs" />
+    <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MedicineModel.cs" />
+    <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2121,6 +2125,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\App\app.js" />
     <Content Include="Scripts\App\LoginController.js" />
+    <Content Include="Scripts\App\PurchaseController.js" />
     <Content Include="Scripts\App\SignupController.js" />
     <Content Include="Scripts\App\SupplierController.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -2186,11 +2191,14 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Supplier\AddSupplier.cshtml" />
     <Content Include="Views\Supplier\EditSupplier.cshtml" />
+    <Content Include="Views\Purchase\GetPurchase.cshtml" />
+    <Content Include="Views\Purchase\AddPurchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Medicine\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

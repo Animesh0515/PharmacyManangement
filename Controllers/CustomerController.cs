@@ -13,7 +13,7 @@ using System.Net.Http.Formatting;
 
 namespace PharmacyManagement.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
 
