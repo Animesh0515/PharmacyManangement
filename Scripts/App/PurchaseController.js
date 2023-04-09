@@ -1,4 +1,4 @@
-﻿app.controller("PurchaseController", function ($scope, $http) {
+﻿app.controller("PurchaseController", function ($scope, $http, $window, $timeout) {
     
     //used document .ready for typeahead
     //this gets executed at the time page loads
@@ -150,5 +150,70 @@
         $scope.GrandTotal = grandTotal;
     };
 
-    
+    $scope.getPurchases = function () {
+        $http({
+            method: 'Get',
+            url: '/Purchase/GetAllPurchase'
+        }).then(function (response) {
+            $scope.Purchases = response.data;
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
+
+    $scope.printPurchaseBill = function (purchaseData) {
+        $http({
+            method: 'Post',
+            url: '/Purchase/PurchaseInvoiceTemplate',
+            data: purchaseData
+        }).then(function (response) {
+            $scope.Purchases = response.data;
+            //printing the invoice
+            var printWindow = window.open('', '_blank', 'height=500,width=800');
+            var htmlContent = response.data;
+            printWindow.document.write(htmlContent);
+            printWindow.print();
+            printWindow.close();
+            $window.location.reload();
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });       
+    };
+
+    $scope.deletePurchaseBill = function (PurchaseId) {
+        $http({
+            method: 'Post',
+            url: '/Purchase/DeletePurchase',
+            data: { PurchaseId: parseInt(PurchaseId) }
+        }).then(function (response) {
+            if (response.data == "True") {
+                $scope.showSuccess = true;
+                $scope.showError = false;
+                $timeout(function () {
+                    $window.location.reload();
+                }, 2000);
+            }
+            else {
+                $scope.showSuccess = false;
+                $scope.showError = true;
+                $scope.errorMessage = "Error while deleting Purchase. Contact Admin";
+            }
+
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    };
+
+    $scope.sortAsc = function () {
+        $scope.createdDate = 'PurchasedDate';
+        //$scope.reverse = false;
+    };
+
+    $scope.sortDesc = function () {
+        $scope.createdDate = '-PurchasedDate';
+        //$scope.reverse = true;
+    };
 });

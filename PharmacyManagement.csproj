@@ -2193,6 +2193,7 @@
     <Content Include="Views\Supplier\EditSupplier.cshtml" />
     <Content Include="Views\Purchase\GetPurchase.cshtml" />
     <Content Include="Views\Purchase\AddPurchase.cshtml" />
+    <Content Include="Views\Purchase\PurchaseInvoiceTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
