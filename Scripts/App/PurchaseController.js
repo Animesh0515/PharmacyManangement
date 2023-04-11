@@ -1,4 +1,4 @@
-﻿app.controller("PurchaseController", function ($routeParams, $scope, $http, $window, $timeout, $location) {
+﻿app.controller("PurchaseController", function ($scope, $http, $window, $timeout, $location) {
     
     //used document .ready for typeahead
     //this gets executed at the time page loads
@@ -260,6 +260,7 @@
             $scope.PurchasedDate = new Date(data.PurchasedDate);
             $scope.PaymentType = data.PaymentType;
             $scope.BatchNumber = data.BatchNumber;
+            $scope.GrandTotal = data.GrandTotal;
             angular.forEach(data.MedicinePurchasedModels, function (medicine) {
                 medicine.ExpiryDate = new Date(medicine.ExpiryDate)
             });

@@ -216,7 +216,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string purchasequery = "Select P.PurchaseId, s.SupplierId, s.SupplierName,P.BatchNumber,P.PaymentType,P.GrandTotal,P.PurchasedDate,P.DeletedFlag from Purchase P join Suppliers S on P.SupplierId=S.SupplierId where P.DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string purchasequery = "Select P.PurchaseId, s.SupplierId, s.SupplierName,P.BatchNumber,P.PaymentType,P.GrandTotal,P.PurchasedDate,P.DeletedFlag from Purchase P join Suppliers S on P.SupplierId=S.SupplierId where P.DeletedFlag='N' and P.PurchaseId="+PurchaseId; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(purchasequery, conn))
                     {
                         cmd.CommandType = CommandType.Text;

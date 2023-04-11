@@ -88,7 +88,7 @@
                         <td>{{value.PurchasedDate}}</td>
                         <td>
                             <a>
-                                <a @*href="/Purchase/EditPurchase"*@><i class="fs-5 bi-pencil-square" ng-click="editPurchase(value.SupplierId)" ></i></a>
+                                <a @*href="/Purchase/EditPurchase"*@><i class="fs-5 bi-pencil-square" ng-click="editPurchase(value.PurchaseId)" ></i></a>
                                 <i class="fs-5 bi bi-printer"  ng-click="printPurchaseBill(value)"></i>
                                 <i class="fs-5 bi bi-trash3"  ng-click="deletePurchaseBill(value.PurchaseId)"></i>
                             </a>
