@@ -7,11 +7,14 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
     <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     <script src="~/Scripts/App/PurchaseController.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    
+
     <style>
         .form-control {
             width: 70% !important;
@@ -85,6 +88,7 @@
                         <td>{{value.PurchasedDate}}</td>
                         <td>
                             <a>
+                                <a @*href="/Purchase/EditPurchase"*@><i class="fs-5 bi-pencil-square" ng-click="editPurchase(value.SupplierId)" ></i></a>
                                 <i class="fs-5 bi bi-printer"  ng-click="printPurchaseBill(value)"></i>
                                 <i class="fs-5 bi bi-trash3"  ng-click="deletePurchaseBill(value.PurchaseId)"></i>
                             </a>

@@ -1,4 +1,4 @@
-﻿app.controller("PurchaseController", function ($scope, $http, $window, $timeout) {
+﻿app.controller("PurchaseController", function ($routeParams, $scope, $http, $window, $timeout, $location) {
     
     //used document .ready for typeahead
     //this gets executed at the time page loads
@@ -69,7 +69,7 @@
         $scope.medicines.splice(index, 1);
     };
 
-    $scope.submitForm = function () {
+    $scope.submitForm = function (action) {
 
         if ($scope.SupplierId== undefined || $scope.PurchasedDate == undefined || $scope.BatchNumber == undefined || $scope.PaymentType == undefined) {
             $scope.showPurchaseError = true;
@@ -89,6 +89,7 @@
             }
             else {
                 var model = {
+                    "PurchaseId": $scope.PurchaseId,
                     "SupplierId": $scope.SupplierId,
                     "BatchNumber": $scope.BatchNumber,
                     "PaymentType": $scope.PaymentType,
@@ -96,34 +97,56 @@
                     "PurchasedDate": $scope.PurchasedDate,
                     "MedicinePurchasedModels": $scope.medicines
                 }
+                if (action == "add") {
+                    $http({
+                        method: 'Post',
+                        url: '/Purchase/SavePurchase',
+                        data: model
+                    }).then(function (response) {
+                        if (response.data == "True") {
+                            $scope.supplier = "";
+                            $scope.SupplierId = "";
+                            $scope.BatchNumber = "";
+                            $scope.PaymentType = "";
+                            $scope.GrandTotal = "";
+                            $scope.PurchasedDate = "";
+                            $scope.medicines = [
+                                { MedicineName: "", ExpiryDate: "", Quantity: "", Price: "", TotalAmount: "" }
+                            ];
+                        }
+                        else {
+                            $scope.showPurchaseSuccess = false;
+                            $scope.showPurchaseError = true;
+                            $scope.purchaseErrorMessage = "Error while Adding Purchase. Contact Admin";
+                        }
 
-                $http({
-                    method: 'Post',
-                    url: '/Purchase/SavePurchase',
-                    data: model
-                }).then(function (response) {
-                    if (response.data == "True") {
-                        $scope.supplier = "";
-                        $scope.SupplierId = "";
-                        $scope.BatchNumber = "";
-                        $scope.PaymentType = "";
-                        $scope.GrandTotal = "";
-                        $scope.PurchasedDate = "";
-                        $scope.medicines = [
-                            { MedicineName: "", ExpiryDate: "", Quantity: "", Price: "", TotalAmount: "" }
-                        ];
-                    }
-                    else {
+                    }, function (response) {
                         $scope.showPurchaseSuccess = false;
                         $scope.showPurchaseError = true;
-                        $scope.purchaseErrorMessage = "Error while Adding Purchase. Contact Admin";
-                    }
-                        
-                }, function (response) {
-                    $scope.showPurchaseSuccess = false;
-                    $scope.showPurchaseError = true;
-                    $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
-                });
+                        $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
+                    });
+                }
+                else {
+                    $http({
+                        method: 'Post',
+                        url: '/Purchase/EditPurchase',
+                        data: model
+                    }).then(function (response) {
+                        if (response.data == "True") {
+                            $window.location.href = '/Purchase/GetPurchase';
+                        }
+                        else {
+                            $scope.showPurchaseSuccess = false;
+                            $scope.showPurchaseError = true;
+                            $scope.purchaseErrorMessage = "Error while Adding Purchase. Contact Admin";
+                        }
+
+                    }, function (response) {
+                        $scope.showPurchaseSuccess = false;
+                        $scope.showPurchaseError = true;
+                        $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
+                    });
+                }
 
             }
         }
@@ -215,5 +238,38 @@
     $scope.sortDesc = function () {
         $scope.createdDate = '-PurchasedDate';
         //$scope.reverse = true;
+    };
+
+    $scope.editPurchase = function (id) {       
+        $window.location.href = '/Purchase/EditPurchase?id=' + parseInt(id);
+    }
+    
+    $scope.GetPurchaseEditData = function () {
+        //getting id from url
+        var url = $location.$$absUrl;       
+        var PurchaseIdForEdit=url.split('=').pop();
+        $http({
+            method: 'Post',
+            url: '/Purchase/GetPurchaseDetail',
+            data: { PurchaseId: parseInt(PurchaseIdForEdit) }
+        }).then(function (response) {
+
+            var data = response.data;
+            $scope.SupplierId = data.SupplierId;
+            $scope.supplier = data.SupplierName;
+            $scope.PurchasedDate = new Date(data.PurchasedDate);
+            $scope.PaymentType = data.PaymentType;
+            $scope.BatchNumber = data.BatchNumber;
+            angular.forEach(data.MedicinePurchasedModels, function (medicine) {
+                medicine.ExpiryDate = new Date(medicine.ExpiryDate)
+            });
+            $scope.medicines = data.MedicinePurchasedModels;
+
+
+        }, function (response) {
+            $scope.showPurchaseError = true;
+            $scope.showPurchaseSuccess = false;
+            $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
+        });
     };
 });
