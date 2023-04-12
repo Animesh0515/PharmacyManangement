@@ -6,9 +6,11 @@
         //Checking if ContactNumber enter is number
         if (isNaN(contactnumber)) {
             $scope.showError = true;
+            $scope.showSuccess = false;
             $scope.errorMessage = "Not a valid contact number.";
         } else if ($scope.ContactNumber.toString().length != 10) {  /*Checking Length of Number to be 10 digit*/
             $scope.showError = true;
+            $scope.showSuccess = false;
             $scope.errorMessage = "Not a valid contact number. Must be 10 digit";
         }
         else {
@@ -53,6 +55,7 @@
                 $scope.SupplierList = response.data;
             
         }, function (response) {
+            $scope.showSuccess = false;
             $scope.showError = true;
             $scope.errorMessage = "Something Went Wrong. Contact Admin";
         });
@@ -85,6 +88,7 @@
         $scope.showError = false;
         //Checking if any value is not passed in input text
         if (supplier.SupplierName == "" || supplier.ContactNumber == "" || supplier.Address == "" || supplier.Email == "") {
+            $scope.showSuccess = false;
             $scope.showError = true;
             $scope.errorMessage = "Missing Field ! Fill out all fields.";
         }
@@ -92,9 +96,11 @@
             var contactnumber = parseInt(supplier.ContactNumber);
             //Checking if ContactNumber enter is number
             if (isNaN(contactnumber)) {
+                $scope.showSuccess = false;
                 $scope.showError = true;
                 $scope.errorMessage = "Not a valid contact number.";
             } else if (supplier.ContactNumber.toString().length != 10) {  /*Checking Length of Number to be 10 digit*/
+                $scope.showSuccess = false;
                 $scope.showError = true;
                 $scope.errorMessage = "Not a valid contact number. Must be 10 digit";
             }
@@ -112,6 +118,7 @@
                 }).then(function (response) {
                     if (response.data == "True") {
                         $scope.showSuccess = true;
+                        $scope.showError = false;
                         supplier.editing = false;
                         $scope.isEdit = false;
                         $timeout(function () {
@@ -119,6 +126,7 @@
                         }, 3000); // reload after 3 seconds
                     }
                     else {
+                        $scope.showSuccess = false;
                         $scope.showError = true;
                         $scope.errorMessage = "Error while updating. Please Try Again.";
                     }
@@ -126,6 +134,7 @@
 
 
                 }, function (response) {
+                    $scope.showSuccess = false;
                     $scope.showError = true;
                     $scope.errorMessage = "Something Went Wrong. Contact Admin";
                 });

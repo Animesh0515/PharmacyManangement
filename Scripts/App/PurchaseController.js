@@ -22,8 +22,9 @@
             });
             
         }, function (response) {
-            $scope.showError = true;
-            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+            $scope.showPurchaseSuccess = false;
+            $scope.showPurchaseError = true;
+            $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
         });
 
       
@@ -113,6 +114,8 @@
                             $scope.medicines = [
                                 { MedicineName: "", ExpiryDate: "", Quantity: "", Price: "", TotalAmount: "" }
                             ];
+                            $scope.showPurchaseSuccess = true;
+                            $scope.showPurchaseError = false;
                         }
                         else {
                             $scope.showPurchaseSuccess = false;

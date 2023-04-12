@@ -72,7 +72,7 @@ namespace PharmacyManagement.Controllers
                                 model.SupplierName = reader[1].ToString();
                                 model.Email = reader[2].ToString();
                                 model.Address = reader[3].ToString();
-                                model.ContactNumber = int.Parse(reader[4].ToString());
+                                model.ContactNumber = Int64.Parse(reader[4].ToString());
                                 model.CreatedDate = DateTime.Parse(reader[5].ToString()).ToString("yyyy-MM-dd");                                
                                 modelList.Add(model);
                             }

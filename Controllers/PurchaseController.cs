@@ -45,7 +45,7 @@ namespace PharmacyManagement.Controllers
                         }
                     }
                     string purchaseQuery = "Insert into Purchase(SupplierId,BatchNumber,PaymentType,GrandTotal,PurchasedDate,DeletedFlag,CreatedBy)" +
-                                        "values('" + model.SupplierId + "','" + model.BatchNumber + "','" + model.PaymentType + "','" + model.GrandTotal + "','" + model.PurchasedDate + "','N''" + (int)Session["UserId"] + "');";
+                                        "values('" + model.SupplierId + "','" + model.BatchNumber + "','" + model.PaymentType + "','" + model.GrandTotal + "','" + model.PurchasedDate + "','N','" + (int)Session["UserId"] + "');";
                     using (SqlCommand cmd = new SqlCommand(purchaseQuery, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -55,7 +55,7 @@ namespace PharmacyManagement.Controllers
                     string medicinePurchasedQuery = String.Empty;
                     foreach (var data in model.MedicinePurchasedModels)
                     {
-                        medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,CreatedBy,DeletedFlag,Quantity,TotalAmount)" +
+                        medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,DeletedFlag,Quantity,TotalAmount)" +
                                                   "values('" + data.MedicineId + "','" + purchaseId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
                     }
                     using (SqlCommand cmd = new SqlCommand(medicinePurchasedQuery, conn))
@@ -254,6 +254,7 @@ namespace PharmacyManagement.Controllers
         [HttpPost]
         public bool EditPurchase(PurchaseModel model)
         {
+            //transaction scope helps to roll back  the data if any issue arises
             using (var transactionscope= new TransactionScope())
             {
                 try
