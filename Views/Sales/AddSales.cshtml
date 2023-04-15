@@ -58,7 +58,7 @@
             <div class="col-3">
                 <label for="Customer">Select Customer</label>
                 @*AutoComplete text box*@
-                <input type="text" id="inputElement" class="form-control" ng-model="customer" ng-change="setCustomerId(customerName)" typeahead="customer.CustomerName for customer in CustomerList | filter:$viewValue | limitTo:8">
+                <input type="text" id="inputElement" class="form-control" ng-model="customer" ng-change="setCustomerId(customer)" typeahead="customer.CustomerName for customer in CustomerList | filter:$viewValue | limitTo:8">
             </div>
             <div class="col-3">
                 <label for="SalesDate">Sales Date</label>
@@ -81,7 +81,7 @@
             </div> 
             <div class="col-3">
                 <label for="Discount">Discount</label>
-                <input type="number" class="form-control" ng-model="Discount" placeholder="Enter Discount %" required > 
+                <input type="number" class="form-control" ng-model="Discount" ng-change="updateDiscountAmount()" max="100" placeholder="Enter Discount %" required > 
             </div>
             </div>
             <form name="medicineForm" ng-submit="submitForm('add')" class="ms-2">

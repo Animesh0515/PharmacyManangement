@@ -1,4 +1,4 @@
-﻿app.controller("SalesController", function ($scope, $http) {
+﻿app.controller("SalesController", function ($scope, $http, $location, $window) {
     $scope.NewCustomer = true;
     //used document .ready for typeahead
     //this gets executed at the time page loads
@@ -49,16 +49,18 @@
     });
 
     $scope.setCustomerId = function (customerName) {
-        $scope.NewCustomer = true;
-        var customer = $scope.CustomerList.find(function (s) {
-            return s.CustomerName === customerName;
-        });
+        if (customerName != undefined || customerName !="") {
+            $scope.NewCustomer = true;            
+            var customer = $scope.CustomerList.find(function (s) {
+                return s.CustomerName === customerName;
+            });
 
-        if (customer) {
-            $scope.CustomerId = customer.CustomerId;
-            $scope.customer = customerName;
-        } else {
-            $scope.CustomerId = undefined;
+            if (customer) {
+                $scope.CustomerId = customer.CustomerId;
+                $scope.customer = customerName;
+            } else {
+                $scope.CustomerId = undefined;
+            }
         }
     };
 
@@ -97,12 +99,43 @@
         var grandTotal = 0;
         for (var i = 0; i < $scope.medicines.length; i++) {
             grandTotal += $scope.medicines[i].TotalAmount;
+            $scope.TotalAmount = grandTotal;
         }
-        $scope.GrandTotal = grandTotal;
+        if ($scope.Discount) {
+            var discountedAmount = ($scope.Discount / 100) * $scope.TotalAmount;
+            $scope.GrandTotal = $scope.TotalAmount - discountedAmount;
+
+        }
+        else {
+            $scope.GrandTotal = grandTotal;
+        }
     };
 
+    $scope.updateDiscountAmount = function () {
+        if ($scope.Discount) {
+            if ($scope.TotalAmount) {
+                var discountedAmount = ($scope.Discount / 100) * $scope.TotalAmount;
+                $scope.GrandTotal = $scope.TotalAmount - discountedAmount;
+            }
+            else {
+                var grandTotal = 0;
+                for (var i = 0; i < $scope.medicines.length; i++) {
+                    grandTotal += $scope.medicines[i].TotalAmount;
+                    $scope.TotalAmount = grandTotal;
+                }
+                var discountedAmount = ($scope.Discount / 100) * $scope.TotalAmount;
+                $scope.GrandTotal = $scope.TotalAmount - discountedAmount;
+            }
+
+        }
+        else if (!$scope.Discount && $scope.TotalAmount) {
+            $scope.GrandTotal = $scope.TotalAmount
+        }
+        
+    }
+
     $scope.submitForm = function (action) {
-        if ($scope.SupplierId == undefined || $scope.PurchasedDate == undefined || $scope.BatchNumber == undefined || $scope.PaymentType == undefined) {
+        if (($scope.CustomerName == undefined && $scope.customer == undefined) || $scope.SalesDate == undefined || $scope.MobileNumber == undefined || $scope.Address == undefined || $scope.Email == undefined) {
             $scope.showSalesError = true;
             $scope.showSalesSuccess = false;
             $scope.salesErrorMessage = "Please Fill out all the fields";
@@ -110,7 +143,7 @@
         else {
             //Validating table data
             var valid = $scope.medicines.every(function (medicine) {
-                return medicine.MedicineId && medicine.PackingType && medicine.ExpiryDate && medicine.Quantity && medicine.Price && medicine.TotalAmount;
+                return medicine.MedicineId && medicine.PackingType  && medicine.Quantity && medicine.Price && medicine.TotalAmount;
 
             });
             if (!valid) {
@@ -119,16 +152,24 @@
                 $scope.salesErrorMessage = "Please Fill out all the fields of table";
             }
             else {
-                var Customer = null;
-                if ($scope.NewCustomer) {
-                     Customer = {
-                        "CustomerName": $scope.CustomerName,
-                        "MobileNumber": $scope.MobileNumber,
-                        "Email": $scope.Email,
-                        "Address": $scope.Address
+              
+               /* if ($scope.NewCustomer) {*/
+
+                Customer = {
+                    "CustomerId": $scope.CustomerId,
+                    "CustomerName": $scope.customer,
+                    "MobileNumber": $scope.MobileNumber,
+                    "Email": $scope.Email,
+                    "Address": $scope.Address
                     }
-                }
+                //}
+                //else {
+                //    Customer = {
+                //        "CustomerId": $scope.CustomerId,
+                //    }
+                //}
                 var CustomerPurchase = {
+                    "CustomerPurchaseId": $scope.CustomerPurchaseId,
                     "CustomerId": $scope.CustomerId,
                     "Discount": $scope.Discount,
                     "GrandTotal": $scope.GrandTotal,
@@ -140,7 +181,8 @@
                 var model = {
                     "Customer": Customer,
                     "CustomerPurchase": CustomerPurchase,
-                    "CustomerPurchasedMedicine": CustomerPurchasedMedicine
+                    "CustomerPurchasedMedicine": CustomerPurchasedMedicine,
+                    "IsNewCustomer": $scope.NewCustomer
                 }
                 if (action == "add") {
                     $http({
@@ -149,12 +191,14 @@
                         data: model
                     }).then(function (response) {
                         if (response.data == "True") {
-                            $scope.supplier = "";
-                            $scope.SupplierId = "";
-                            $scope.BatchNumber = "";
-                            $scope.PaymentType = "";
+                            $scope.customer = "";
+                            $scope.CustomerId = "";
+                            $scope.MobileNumber = "";
+                            $scope.Address = "";
+                            $scope.Email = "";
+                            $scope.Discount = "";
                             $scope.GrandTotal = "";
-                            $scope.PurchasedDate = "";
+                            $scope.SalesDate = "";
                             $scope.medicines = [
                                 { MedicineName: "", ExpiryDate: "", Quantity: "", Price: "", TotalAmount: "" }
                             ];
@@ -176,11 +220,11 @@
                 else {
                     $http({
                         method: 'Post',
-                        url: '/Purchase/EditPurchase',
+                        url: '/Sales/EditSales',
                         data: model
                     }).then(function (response) {
                         if (response.data == "True") {
-                            $window.location.href = '/Purchase/GetPurchase';
+                            $scope.showSalesSuccess = true;
                         }
                         else {
                             $scope.showSalesSuccess = false;
@@ -198,4 +242,68 @@
             }
         }
     }
+
+    $scope.GetSalesData = function () {
+        $http({
+            method: 'Get',
+            url: '/Sales/GetSalesData'
+        }).then(function (response) {
+
+            $scope.Sales = response.data;
+          
+
+        }, function (response) {
+            $scope.showSucess = true;
+            $scope.showError = true;
+            $scope.salesMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
+
+    $scope.editSales= function (id) {
+        $window.location.href = '/Sales/EditSales?id=' + parseInt(id);
+    }
+
+    $scope.sortAsc = function () {
+        $scope.purchaseDate = 'PurchasedDate';
+        //$scope.reverse = false;
+    };
+
+    $scope.sortDesc = function () {
+        $scope.purchaseDate = '-PurchasedDate';
+        //$scope.reverse = true;
+    };
+
+    $scope.GetSalesEditData = function () {
+        //getting id from url
+        var url = $location.$$absUrl;
+        var CustomerPurchaseId = url.split('=').pop();
+        $http({
+            method: 'Post',
+            url: '/Sales/GetSalesDetail',
+            data: { CustomerPurchaseId: parseInt(CustomerPurchaseId) }
+        }).then(function (response) {
+
+            var data = response.data;
+            $scope.CustomerId = data.Customer.CustomerId;
+            $scope.customer = data.Customer.CustomerName;
+            $scope.CustomerName = data.Customer.CustomerName;
+            $scope.MobileNumber = data.Customer.MobileNumber;
+            $scope.Address = data.Customer.Address;
+            $scope.Email = data.Customer.Email;
+            $scope.CustomerPurchaseId = data.CustomerPurchase.CustomerPurchaseId;
+            $scope.Discount = data.CustomerPurchase.Discount;
+            $scope.SalesDate = new Date(data.CustomerPurchase.PurchasedDate);
+            $scope.GrandTotal =data.CustomerPurchase.GrandTotal;
+            $scope.medicines = data.CustomerPurchasedMedicine;
+            $scope.NewCustomer = false;
+            
+
+
+        }, function (response) {
+            $scope.showPurchaseError = true;
+            $scope.showPurchaseSuccess = false;
+            $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
+    
 });

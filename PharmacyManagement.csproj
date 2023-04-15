@@ -2201,6 +2201,8 @@
     <Content Include="Views\Purchase\PurchaseInvoiceTemplate.cshtml" />
     <Content Include="Views\Purchase\EditPurchase.cshtml" />
     <Content Include="Views\Sales\AddSales.cshtml" />
+    <Content Include="Views\Sales\EditSales.cshtml" />
+    <Content Include="Views\Sales\GetSales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

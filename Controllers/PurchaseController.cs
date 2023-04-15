@@ -117,14 +117,12 @@ namespace PharmacyManagement.Controllers
         [HttpPost]
         public ActionResult PurchaseInvoiceTemplate(PurchaseModel model)
         {
-            //PurchaseModel model = new PurchaseModel();
-            var MedicinePurchasedModels = GetMedicinePurchased(model.PurchaseId);
-            //var MedicinePurchasedModels = GetMedicinePurchased(id);
+            
+            var MedicinePurchasedModels = GetMedicinePurchased(model.PurchaseId);            
             if (MedicinePurchasedModels != null)
             {
                 model.MedicinePurchasedModels = MedicinePurchasedModels;
-                return PartialView(model);
-                //return View("PurchaseInvoiceTemplate", model: model, layout: null);
+                return PartialView(model);                
             }
             else
             {
@@ -274,7 +272,13 @@ namespace PharmacyManagement.Controllers
                         string medicinePurchasedQuery = String.Empty;
                         foreach (var data in model.MedicinePurchasedModels)
                         {
-                            medicinePurchasedQuery += "update  MedicinePurchased set MedicineId='" + data.MedicineId + "',Price='" + data.Price + "',ExpiryDate='" + data.ExpiryDate + "',Quantity='" + data.Quantity + "',TotalAmount='" + data.TotalAmount + "' where MedicinePurchasedId=" + data.MedicinePurchasedId+";";
+                            if(data.MedicinePurchasedId !=0)
+                            {
+                                medicinePurchasedQuery += "Delete from MedicinePurchased where MedicinePurchasedid=" + data.MedicinePurchasedId+";";
+                            }
+                            //medicinePurchasedQuery += "update  MedicinePurchased set MedicineId='" + data.MedicineId + "',Price='" + data.Price + "',ExpiryDate='" + data.ExpiryDate + "',Quantity='" + data.Quantity + "',TotalAmount='" + data.TotalAmount + "' where MedicinePurchasedId=" + data.MedicinePurchasedId+";";
+                            medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,DeletedFlag,Quantity,TotalAmount)" +
+                                                "values('" + data.MedicineId + "','" + data.PurchasId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
                         }
                         using (SqlCommand cmd = new SqlCommand(medicinePurchasedQuery, conn))
                         {
@@ -290,7 +294,7 @@ namespace PharmacyManagement.Controllers
                 catch (Exception ex)
                 {
                     //rollback trasnaction
-                    transactionscope.Complete();
+                    transactionscope.Dispose();
                     return false;
                 }
             }
