@@ -2132,6 +2132,7 @@
     <Content Include="Scripts\App\PurchaseController.js" />
     <Content Include="Scripts\App\SalesController.js" />
     <Content Include="Scripts\App\SignupController.js" />
+    <Content Include="Scripts\App\MedicineController.js" />
     <Content Include="Scripts\App\SupplierController.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -2199,6 +2200,8 @@
     <Content Include="Views\Purchase\GetPurchase.cshtml" />
     <Content Include="Views\Purchase\AddPurchase.cshtml" />
     <Content Include="Views\Purchase\PurchaseInvoiceTemplate.cshtml" />
+    <Content Include="Views\Medicine\AddMedicine.cshtml" />
+    <Content Include="Views\Medicine\EditMedicine.cshtml" />
     <Content Include="Views\Purchase\EditPurchase.cshtml" />
     <Content Include="Views\Sales\AddSales.cshtml" />
     <Content Include="Views\Sales\EditSales.cshtml" />
@@ -2208,7 +2211,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Medicine\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
