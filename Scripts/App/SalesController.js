@@ -1,4 +1,4 @@
-﻿app.controller("SalesController", function ($scope, $http, $location, $window) {
+﻿app.controller("SalesController", function ($scope, $http, $location, $window, $timeout) {
     $scope.NewCustomer = true;
     //used document .ready for typeahead
     //this gets executed at the time page loads
@@ -325,5 +325,30 @@
             $scope.errorMessage = "Something Went Wrong. Contact Admin";
         });
     };
+
+    $scope.deleteSalesBill = function (CustomerPurchaseId) {
+        $http({
+            method: 'Post',
+            url: '/Sales/DeleteSales',
+            data: { CustomerPurchaseId: parseInt(CustomerPurchaseId) }
+        }).then(function (response) {
+            if (response.data == "True") {
+                $scope.showSuccess = true;
+                $scope.showError = false;
+                $timeout(function () {
+                    $window.location.reload();
+                }, 2000);
+            }
+            else {
+                $scope.showSuccess = false;
+                $scope.showError = true;
+                $scope.errorMessage = "Error while deleting Purchase. Contact Admin";
+            }
+
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
     
 });

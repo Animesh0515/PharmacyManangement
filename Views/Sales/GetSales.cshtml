@@ -31,7 +31,7 @@
             {{errorMessage}}
         </div>
         <div class="alert alert-success" role="alert" ng-if="showSuccess">
-            Purchase Deleted Sucessfully! Reloading Please Wait .....
+            Sales Deleted Sucessfully! Reloading Please Wait .....
         </div>
 
 
@@ -78,7 +78,7 @@
                             <a>
                                 <a @*href="/Purchase/EditPurchase"*@><i class="fs-5 bi-pencil-square" ng-click="editSales(value.CustomerPurchase.CustomerPurchaseId)"></i></a>
                                 <i class="fs-5 bi bi-printer" ng-click="printSalesBill(value)"></i>
-                                <i class="fs-5 bi bi-trash3" ng-click="deletePurchaseBill(value.PurchaseId)"></i>
+                                <i class="fs-5 bi bi-trash3" ng-click="deleteSalesBill(value.CustomerPurchase.CustomerPurchaseId)"></i>
                             </a>
                         </td>
                     </tr>

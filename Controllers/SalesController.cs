@@ -342,5 +342,27 @@ namespace PharmacyManagement.Controllers
             }
         }
 
+        public bool DeleteSales(int CustomerPurchaseId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "Update CustomerPurchase set DeletedFlag='Y' where CustomerPurchaseId=" + CustomerPurchaseId;
+                    using (SqlCommand cmd= new SqlCommand(query,conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }                                                                                                                                                                                                                                     
