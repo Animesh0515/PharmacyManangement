@@ -2210,6 +2210,7 @@
     <Content Include="Views\Sales\GetSales.cshtml" />
     <Content Include="Views\Report\SalesReport.cshtml" />
     <Content Include="Views\Sales\SalesInvoiceTemplate.cshtml" />
+    <Content Include="Views\Report\PurchaseReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

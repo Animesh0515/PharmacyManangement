@@ -82,7 +82,54 @@ namespace PharmacyManagement.Controllers
 
         }
 
+        public ActionResult GetPurchaseReport()
+        {
+            List<PurchaseModel> purchaseList = new List<PurchaseModel>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-        
+                    PurchaseController purchaseController = new PurchaseController();
+
+                    string query = "Select P.PurchaseId, s.SupplierId, s.SupplierName,P.BatchNumber,P.PaymentType,P.GrandTotal,P.PurchasedDate,P.DeletedFlag from Purchase P join Suppliers S on P.SupplierId=S.SupplierId where P.DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                PurchaseModel purchase = new PurchaseModel(); //creating customer object
+                                purchase.PurchaseId = int.Parse(reader[0].ToString());
+                                purchase.SupplierId = int.Parse(reader[1].ToString());
+                                purchase.SupplierName = reader[2].ToString();
+                                purchase.BatchNumber = reader[3].ToString();
+                                purchase.PaymentType = reader[4].ToString();
+                                purchase.GrandTotal = decimal.Parse(reader[5].ToString());
+                                purchase.PurchasedDate = DateTime.Parse(reader[6].ToString()).ToString("yyyy-MM-dd");
+                                purchase.DeletedFlag = char.Parse(reader[7].ToString());
+
+                                //getting medicine details
+                                purchase.MedicinePurchasedModels = purchaseController.GetMedicinePurchased(purchase.PurchaseId);
+                                purchaseList.Add(purchase);
+                            }
+                            return Json(purchaseList, JsonRequestBehavior.AllowGet);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, "An error occurred while retrieving the data. Please try again later.");
+
+            }
+        }
+
+
+
+
     }
 }
