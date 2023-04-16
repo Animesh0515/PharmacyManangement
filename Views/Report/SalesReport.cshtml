@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "SalesReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/ReportController.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <style>
+        .form-control {
+            width: 70% !important;
+        }
+    </style>
+
+</head>
+<div ng-app="myApp">
+    <div class="bg-dark">
+        <h2 style="color: white; text-align: -webkit-center;">Edit Medicine</h2>
+    </div>
+    <div ng-controller="ReportController" ng-init="getSales()">
+        <div class="alert alert-danger" role="alert" ng-if="showError">
+            {{errorMessage}}
+        </div>
+        <div class="alert alert-success" role="alert" ng-if="showSuccess">
+           Successfull!...
+        </div>
+
+
+        <div class="container mt-4">
+            <div class="pb-5" style="width:120%;">
+                <i class="fs-5 bi bi-arrow-repeat" style="float:right; color: #0d6efd;" title="Refresh" onclick="location.reload();"></i>
+            </div>
+            <div class="row mb-3 mx-0" style="width:121%;">
+                <div class="col">
+                    <label>Search by Name</label>
+                    <input type="text" class="form-control mb-2" ng-model="searchText" placeholder="Search by Medicine Name">
+                </div>
+                <div class="col">
+                    <label>Search by Date</label>
+                    <input type="date" class="form-control mb-2" ng-model="searchDate" placeholder="Search by Created Date (yyyy-MM-dd)">
+                </div>
+                <div class="col-auto">
+                    <label class="px-4">Order by CreatedDate</label><br />
+                    <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
+                    <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
+                </div>
+            </div>
+        </div>
+        <div class="m-2">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Medicine Name</th>
+                        <th scope="col">Decsription</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Packing</th>
+                        <th scope="col">Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="MedicineList.length >0" ng-repeat="(key, value) in MedicineList | filter:searchText | filter:{CreatedDate:(searchDate| date:'yyyy-MM-dd')} | orderBy:createdDate">
+                        <th scope="row">{{key+1}}</th>
+                        <td hidden><input type="text" class="form-control" ng-model="value.MedicineId" value={{value.MedicineId}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.MedicineName" value={{value.MedicineName}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Description" value={{value.Description}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Price" value={{value.Price}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.PackingType" value={{value.PackingType}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
+                        <td>
+                            <a>
+                                <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>
+                                <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveMedicine(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-if="MedicineList.length ===0">
+                        <td colspan="7" style="text-align: center;">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

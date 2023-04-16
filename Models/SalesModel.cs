@@ -33,6 +33,7 @@ namespace PharmacyManagement.Models
     {
         public int CustomerPurchasedMedicineId { get; set; }
         public int MedicineId { get; set; }
+        public string MedicineName { get; set; }
         public string PackingType { get; set; }
         public int CustomerPurchaseId { get; set; }
         public int Quantity { get; set; }    

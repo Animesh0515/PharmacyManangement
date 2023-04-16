@@ -278,7 +278,7 @@ namespace PharmacyManagement.Controllers
                             }
                             //medicinePurchasedQuery += "update  MedicinePurchased set MedicineId='" + data.MedicineId + "',Price='" + data.Price + "',ExpiryDate='" + data.ExpiryDate + "',Quantity='" + data.Quantity + "',TotalAmount='" + data.TotalAmount + "' where MedicinePurchasedId=" + data.MedicinePurchasedId+";";
                             medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,DeletedFlag,Quantity,TotalAmount)" +
-                                                "values('" + data.MedicineId + "','" + data.PurchasId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
+                                                "values('" + data.MedicineId + "','" + model.PurchaseId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
                         }
                         using (SqlCommand cmd = new SqlCommand(medicinePurchasedQuery, conn))
                         {

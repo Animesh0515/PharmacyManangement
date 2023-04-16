@@ -305,5 +305,25 @@
             $scope.purchaseErrorMessage = "Something Went Wrong. Contact Admin";
         });
     }
+
+    $scope.printSalesBill = function (purchaseData) {
+        $http({
+            method: 'Post',
+            url: '/Sales/SalesInvoiceTemplate',
+            data: purchaseData
+        }).then(function (response) {
+            $scope.Purchases = response.data;
+            //printing the invoice
+            var printWindow = window.open('', '_blank', 'height=500,width=800');
+            var htmlContent = response.data;
+            printWindow.document.write(htmlContent);
+            printWindow.print();
+            printWindow.close();
+            $window.location.reload();
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    };
     
 });

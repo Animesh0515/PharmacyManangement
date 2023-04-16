@@ -1,10 +1,11 @@
-﻿@model PharmacyManagement.Models.PurchaseModel
+﻿
+@model PharmacyManagement.Models.SalesModel
 @*@{
-    Layout = "null";
-}*@
+        Layout = "null";
+    }*@
 <html>
 <head>
-    <title>Purchase Bill</title>
+    <title>Sales Bill</title>
     @*Added because it gets opened in new windows and bootstrap wont get reference if not used this*@
     <link rel="stylesheet" href="http://localhost:50016/Content/bootstrap.min.css">
     <style>
@@ -24,42 +25,42 @@
 <body>
     <h2>Purchase Invoice</h2>
     <div class="row">
-        <div class="col-6 left">Invoice Number: @Model.PurchaseId</div>
+        <div class="col-6 left">Invoice Number: @Model.CustomerPurchase.CustomerPurchaseId</div>
         <div class="col-6 right">Invoice Date: @DateTime.Now</div>
     </div>
     <div class="row">
-        <div class="col-6 left">Suplier Name: @Model.SupplierName</div>
-        <div class="col-6 right">Batch Number: @Model.BatchNumber</div>
+        <div class="col-6 left">Customer Name: @Model.Customer.CustomerName</div>
+        <div class="col-6 right">Mobile Number: @Model.Customer.MobileNumber</div>
     </div>
     <div class="row">
-        <div class="col-6 left">Payment Type: @Model.PaymentType</div>
-        <div class="col-6 right">Purchased Date: @Model.PurchasedDate</div>
+        <div class="col-6 left">Address: @Model.Customer.Address</div>
+        <div class="col-6 right">Purchased Date: @Model.CustomerPurchase.PurchasedDate</div>
     </div>
     <table class="table table-striped table-hover mt-2">
         <thead>
             <tr>
                 <th scope="col">Medicine Name</th>
                 <th scope="col">Packing Type</th>
-                <th scope="col">Expiry Date</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Price</th>
                 <th scope="col">TotalAmount</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var medicine in Model.MedicinePurchasedModels)
+            @foreach (var medicine in Model.CustomerPurchasedMedicine)
             {
-            <tr>
-                <td>@medicine.MedicineName</td>
-                <td>@medicine.PackingType</td>
-                <td>@medicine.ExpiryDate</td>
-                <td>@medicine.Quantity</td>
-                <td>@medicine.Price</td>
-                <td>@medicine.TotalAmount</td>
-            </tr>
+                <tr>
+                    <td>@medicine.MedicineName</td>
+                    <td>@medicine.PackingType</td>
+                    <td>@medicine.Quantity</td>
+                    <td>@medicine.Price</td>
+                    <td>@medicine.TotalAmount</td>
+                </tr>
             }
             <tr>
-                <td colspan="7">Grand Total:@Model.GrandTotal</td>
+                <td colspan="7">
+                Discount: @Model.CustomerPurchase.Discount%<br />
+                Grand Total: @Model.CustomerPurchase.GrandTotal</td>
             </tr>
         </tbody>
     </table>
