@@ -16,12 +16,15 @@
         .form-control {
             width: 70% !important;
         }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 
 </head>
 <div ng-app="myApp">
     <div class="bg-dark">
-        <h2 style="color: white; text-align: -webkit-center;">Edit Medicine</h2>
+        <h2 style="color: white; text-align: -webkit-center;">Sales Report</h2>
     </div>
     <div ng-controller="ReportController" ng-init="getSales()">
         <div class="alert alert-danger" role="alert" ng-if="showError">
@@ -39,14 +42,18 @@
             <div class="row mb-3 mx-0" style="width:121%;">
                 <div class="col">
                     <label>Search by Name</label>
-                    <input type="text" class="form-control mb-2" ng-model="searchText" placeholder="Search by Medicine Name">
+                    <input type="text" class="form-control mb-2" ng-model="searchText" placeholder="Search by Customer Name">
                 </div>
                 <div class="col">
-                    <label>Search by Date</label>
-                    <input type="date" class="form-control mb-2" ng-model="searchDate" placeholder="Search by Created Date (yyyy-MM-dd)">
+                    <label>Purchase Date From</label>
+                    <input type="date" class="form-control mb-2" ng-model="fromDate" ng-change="filterTable()" placeholder="Search by From Purchase Date (yyyy-MM-dd)">
+                </div>
+                <div class="col">
+                    <label>Purchase Date To</label>
+                    <input type="date" class="form-control mb-2" ng-model="toDate" ng-change="filterTable()" placeholder="Search by To Purchashe Date (yyyy-MM-dd)">
                 </div>
                 <div class="col-auto">
-                    <label class="px-4">Order by CreatedDate</label><br />
+                    <label class="px-4">Order by PurchasedDate</label><br />
                     <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
                     <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
                 </div>
@@ -56,36 +63,52 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Medicine Name</th>
-                        <th scope="col">Decsription</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Packing</th>
-                        <th scope="col">Created At</th>
+                        <th>Sales ID</th>
+                        <th>Customer Name</th>
+                        <th>GrandTotal</th>
+                        <th>Discount %</th>
+                        <th>Purchased Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-if="MedicineList.length >0" ng-repeat="(key, value) in MedicineList | filter:searchText | filter:{CreatedDate:(searchDate| date:'yyyy-MM-dd')} | orderBy:createdDate">
-                        <th scope="row">{{key+1}}</th>
-                        <td hidden><input type="text" class="form-control" ng-model="value.MedicineId" value={{value.MedicineId}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.MedicineName" value={{value.MedicineName}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.Description" value={{value.Description}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.Price" value={{value.Price}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.PackingType" value={{value.PackingType}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
-                        <td>
-                            <a>
-                                <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>
-                                <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveMedicine(value)" ng-show="value.editing"></i>
-                                <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
-                            </a>
+                    <tr ng-repeat-start="sales in SalesList | filter:searchText | dateRangeFilter:fromDate:toDate | orderBy:purchasedDate" ng-click="selectedRow == sales ? selectedRow = null : selectedRow = sales">
+                        <td>{{$index + 1}}</td>
+                        <td>{{sales.Customer.CustomerName}}</td>
+                        <td>{{sales.CustomerPurchase.GrandTotal}}</td>
+                        <td>{{sales.CustomerPurchase.Discount}}</td>
+                        <td>{{sales.CustomerPurchase.PurchasedDate}}</td>
+                    </tr>
+                    <tr ng-repeat-end ng-if="selectedRow == sales">
+                        <td colspan="4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="medicine in sales.CustomerPurchasedMedicine">
+                                        <td>{{medicine.MedicineName}}</td>
+                                        <td>{{medicine.Quantity}}</td>
+                                        <td>{{medicine.Price}}</td>
+                                        <td>{{medicine.TotalAmount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Total Amount : {{calculateTotalAmount(sales)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
-                    <tr ng-if="MedicineList.length ===0">
-                        <td colspan="7" style="text-align: center;">No Data Found</td>
+                    <tr>
+                        <td colspan="7">Grand Total: {{GrandTotal}}</td>
                     </tr>
                 </tbody>
             </table>
+            
         </div>
     </div>
 </div>

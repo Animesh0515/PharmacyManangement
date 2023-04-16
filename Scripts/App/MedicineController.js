@@ -114,7 +114,7 @@
         }
     };
 
-    $scope.reverse = false;
+   
     $scope.createdDate = 'CreatedDate';
 
     $scope.sortAsc = function () {
