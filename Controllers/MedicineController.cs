@@ -117,6 +117,28 @@ namespace PharmacyManagement.Controllers
             }
         }
 
+        public void updateStock(int MedicineId, int Quantity,string Action)
+        {
+            using (SqlConnection conn= new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = String.Empty;
+                if(Action == "Add")
+                {
+                    query = "Update Medicines set Quantity=Quantity+" + Quantity + " where MedicineId=" + MedicineId + ";";
+                }
+                else
+                {
+                    query = "Update Medicines set Quantity=Quantity-" + Quantity + " where MedicineId=" + MedicineId + ";";
+                }
+                using (SqlCommand cmd= new SqlCommand(query,conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
     }
 

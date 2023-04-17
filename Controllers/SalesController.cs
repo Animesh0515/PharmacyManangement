@@ -181,7 +181,7 @@ namespace PharmacyManagement.Controllers
                         }
                     }
 
-                        string medcinePurchasequery = "Select mp.CustomerPurchasedMedicineId,mp.MedicineId, mp.CustomerPurchasedId, mp.Quantity,mp.Rate,mp.Amount,mp.DeletedFlag, m.PackingType from CustomerPurchasedMedicine mp join Medicines m on mp.MedicineId=m.MedicineId where mp.DeletedFlag='N' and mp.CustomerPurchasedId=" + CustomerPurchaseId;
+                        string medcinePurchasequery = "Select mp.CustomerPurchasedMedicineId,mp.MedicineId, mp.CustomerPurchasedId, mp.Quantity,mp.Rate,mp.Amount,mp.DeletedFlag, m.PackingType,m.Quantity from CustomerPurchasedMedicine mp join Medicines m on mp.MedicineId=m.MedicineId where mp.DeletedFlag='N' and mp.CustomerPurchasedId=" + CustomerPurchaseId;
                         using (SqlCommand cmd= new SqlCommand(medcinePurchasequery,conn))
                         {
                             cmd.CommandType = CommandType.Text;
@@ -197,6 +197,7 @@ namespace PharmacyManagement.Controllers
                                 customerPurchasedMedicine.TotalAmount = decimal.Parse(rdr[5].ToString());
                                 customerPurchasedMedicine.DeletedFlag = char.Parse(rdr[6].ToString());
                                 customerPurchasedMedicine.PackingType = rdr[7].ToString();
+                                customerPurchasedMedicine.Stock = int.Parse(rdr[8].ToString());
                                 model.CustomerPurchasedMedicine.Add(customerPurchasedMedicine);
                             }
                         }
@@ -262,7 +263,33 @@ namespace PharmacyManagement.Controllers
                         string customerPurchasedMedicineQuery = String.Empty;
                         foreach (var data in model.CustomerPurchasedMedicine)
                         {
-                            if(data.CustomerPurchasedMedicineId !=0)
+                            //maintaining the stock as editing purchase will affect the stock
+                            int previousQuantity = 0;
+                            string stockQuery = "Select Quantity from CustomerPurchasedMedicine where CustomerPurchasedMedicineId=" + data.CustomerPurchasedMedicineId + ";";
+                            using (SqlCommand cmd = new SqlCommand(stockQuery, conn))
+                            {
+                                cmd.CommandType = CommandType.Text;
+                                previousQuantity = (int)cmd.ExecuteScalar();
+                            }
+                            if (previousQuantity != 0)
+                            {
+                                MedicineController medicineController = new MedicineController();
+                                if (data.Quantity > previousQuantity)
+                                {
+                                    int diff = data.Quantity - previousQuantity;
+                                    medicineController.updateStock(data.MedicineId, diff, "Subtract");
+                                }
+                                else if (data.Quantity < previousQuantity)
+                                {
+                                    int diff = previousQuantity - data.Quantity;
+                                    medicineController.updateStock(data.MedicineId, diff, "Add");
+
+
+                                }
+                            }
+
+                            //Chekcing whether new row data is added if not then deleteing and inserting new one
+                            if (data.CustomerPurchasedMedicineId !=0)
                             {
                                 customerPurchasedMedicineQuery += " Delete from CustomerPurchasedMedicine where CustomerPurchasedMedicineId=" + data.CustomerPurchasedMedicineId + ";";
                             }

@@ -178,7 +178,10 @@
     };
 
     //getting the Total Amount of row as inputed by user
-    $scope.updateTotalAmount = function (medicine) {       
+    $scope.updateTotalAmount = function (medicine) {
+        
+            $scope.showPurchaseError = false;
+            $scope.showPurchaseSuccess = false;
             medicine.TotalAmount = (medicine.Price || 0) * (medicine.Quantity || 0);
             //Getting the grand total
             var grandTotal = 0;
@@ -186,7 +189,7 @@
                 grandTotal += $scope.medicines[i].TotalAmount;
             }
             $scope.GrandTotal = grandTotal;
-        
+        //}
     };
 
     $scope.getPurchases = function () {

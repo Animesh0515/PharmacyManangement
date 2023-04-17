@@ -214,6 +214,9 @@
                             ];
                             $scope.showSalesSuccess = true;
                             $scope.showSalesError = false;
+                            $timeout(function () {
+                                $window.location.reload();
+                            }, 3000);
                         }
                         else {
                             $scope.showSalesSuccess = false;
