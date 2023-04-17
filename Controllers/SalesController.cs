@@ -65,7 +65,8 @@ namespace PharmacyManagement.Controllers
                         foreach (var data in model.CustomerPurchasedMedicine)
                         {
                             customerPurchasedMedicineQuery += "Insert into CustomerPurchasedMedicine(MedicineId,CustomerPurchasedId,Quantity,Rate,Amount,DeletedFlag)" +
-                                "values('"+data.MedicineId+"','"+CustomerPurchaseId+"','"+data.Quantity+"','"+data.Price+"','"+data.TotalAmount +"','N');";
+                                "values('"+data.MedicineId+"','"+CustomerPurchaseId+"','"+data.Quantity+"','"+data.Price+"','"+data.TotalAmount +"','N');" +
+                                "Update Medicines set Quantity=Quantity-" + data.Quantity + " where MedicineId=" + data.MedicineId + ";";
                         }
                         using (SqlCommand cmd = new SqlCommand(customerPurchasedMedicineQuery, conn))
                         {

@@ -88,26 +88,36 @@
         if (selectedMedicine) {
             medicine.PackingType = selectedMedicine.PackingType;
             medicine.Price = selectedMedicine.Price;
+            medicine.Stock = selectedMedicine.Quantity;
         }
     };
    
 
     //getting the Total Amount of row as inputed by user
     $scope.updateTotalAmount = function (medicine) {
-        medicine.TotalAmount = (medicine.Price || 0) * (medicine.Quantity || 0);
-        //Getting the grand total
-        var grandTotal = 0;
-        for (var i = 0; i < $scope.medicines.length; i++) {
-            grandTotal += $scope.medicines[i].TotalAmount;
-            $scope.TotalAmount = grandTotal;
-        }
-        if ($scope.Discount) {
-            var discountedAmount = ($scope.Discount / 100) * $scope.TotalAmount;
-            $scope.GrandTotal = $scope.TotalAmount - discountedAmount;
-
+        if (!medicine.Quantity) {
+            $scope.showSalesError = true;
+            $scope.showSalesSuccess = false;
+            $scope.salesErrorMessage = "Invalid Quantity";
         }
         else {
-            $scope.GrandTotal = grandTotal;
+            $scope.showSalesError = false;
+            $scope.showSalesSuccess = false
+            medicine.TotalAmount = (medicine.Price || 0) * (medicine.Quantity || 0);
+            //Getting the grand total
+            var grandTotal = 0;
+            for (var i = 0; i < $scope.medicines.length; i++) {
+                grandTotal += $scope.medicines[i].TotalAmount;
+                $scope.TotalAmount = grandTotal;
+            }
+            if ($scope.Discount) {
+                var discountedAmount = ($scope.Discount / 100) * $scope.TotalAmount;
+                $scope.GrandTotal = $scope.TotalAmount - discountedAmount;
+
+            }
+            else {
+                $scope.GrandTotal = grandTotal;
+            }
         }
     };
 

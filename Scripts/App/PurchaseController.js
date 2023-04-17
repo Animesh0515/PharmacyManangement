@@ -167,24 +167,26 @@
     };
 
     //gettting the packing type after selecting medicine
-    $scope.getMedicinePackingType = function (medicineId) {
+    $scope.getMedicinePackingType = function (medicine) {
         for (var i = 0; i < $scope.MedicineList.length; i++) {
-            if ($scope.MedicineList[i].MedicineId == medicineId) {
-                return $scope.MedicineList[i].PackingType;
+            if ($scope.MedicineList[i].MedicineId == medicine.MedicineId) {
+                medicine.PackingType = $scope.MedicineList[i].PackingType;
+                medicine.Stock = $scope.MedicineList[i].Quantity;
             }
         }
-        return "";
+       
     };
 
     //getting the Total Amount of row as inputed by user
-    $scope.updateTotalAmount = function (medicine) {
-        medicine.TotalAmount = (medicine.Price || 0) * (medicine.Quantity || 0);
-        //Getting the grand total
-        var grandTotal = 0;
-        for (var i = 0; i < $scope.medicines.length; i++) {
-            grandTotal += $scope.medicines[i].TotalAmount;
-        }
-        $scope.GrandTotal = grandTotal;
+    $scope.updateTotalAmount = function (medicine) {       
+            medicine.TotalAmount = (medicine.Price || 0) * (medicine.Quantity || 0);
+            //Getting the grand total
+            var grandTotal = 0;
+            for (var i = 0; i < $scope.medicines.length; i++) {
+                grandTotal += $scope.medicines[i].TotalAmount;
+            }
+            $scope.GrandTotal = grandTotal;
+        
     };
 
     $scope.getPurchases = function () {

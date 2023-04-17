@@ -114,6 +114,30 @@ namespace PharmacyManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public bool DeleteSupplier(int SupplierId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "Update Suppliers  set DeletedFlag='Y' where SupplierId=" + SupplierId + "";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
     }
 }

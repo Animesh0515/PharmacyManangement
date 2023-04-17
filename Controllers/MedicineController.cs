@@ -61,7 +61,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select Medicineid, MedicineName, Description, Price, PackingType, CreatedDate from Medicines where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string query = "Select Medicineid, MedicineName, Description, Price, PackingType, CreatedDate, Quantity from Medicines where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -76,6 +76,7 @@ namespace PharmacyManagement.Controllers
                                 medicine.Price = decimal.Parse(reader[3].ToString());
                                 medicine.PackingType = reader[4].ToString();
                                 medicine.CreatedDate = DateTime.Parse(reader[5].ToString()).ToString("yyyy-MM-dd");
+                                medicine.Quantity=int.Parse(reader[6].ToString());
                                 medicinelst.Add(medicine);
                             }
                             return Json(medicinelst, JsonRequestBehavior.AllowGet);
@@ -100,7 +101,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Update Medicines  set MedicineName='" + model.MedicineName + "', Price='" + model.Price + "', Description='" + model.Description + "', PackingType='" + model.PackingType + "' where MedicineId=" + model.MedicineId + "";
+                    string query = "Update Medicines  set MedicineName='" + model.MedicineName + "', Price='" + model.Price + "', Description='" + model.Description + "', PackingType='" + model.PackingType + "',Quantity='"+model.Quantity+"' where MedicineId=" + model.MedicineId + "";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;

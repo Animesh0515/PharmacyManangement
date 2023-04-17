@@ -90,7 +90,7 @@
                         <tr>
                             <th scope="col">Medicine Name</th>
                             <th scope="col">Packing Type</th>
-                            @*<th scope="col">Expiry Date</th>*@
+                            <th scope="col">Stock</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Price</th>
                             <th scope="col">TotalAmount</th>
@@ -107,8 +107,8 @@
                                 </select>
                             </td>
                             <td><input type="text" ng-model="medicine.PackingType" disabled></td>
-                            @*<td><input type="date" ng-model="medicine.ExpiryDate"></td>*@
-                            <td><input type="number" min="1" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
+                            <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
+                            <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
                             <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
                             <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
                             <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>

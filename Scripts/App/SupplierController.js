@@ -119,6 +119,7 @@
                     if (response.data == "True") {
                         $scope.showSuccess = true;
                         $scope.showError = false;
+                        $scope.successMessage= "Supplier Edited Sucessfully! Reloading Please Wait .....";
                         supplier.editing = false;
                         $scope.isEdit = false;
                         $timeout(function () {
@@ -155,6 +156,32 @@
         //$scope.reverse = true;
     };
 
+    $scope.deleteSupplier = function (SupplierId) {
+        $http({
+            method: 'Post',
+            url: '/Supplier/DeleteSupplier',
+            data: { SupplierId: parseInt(SupplierId)}
+        }).then(function (response) {
 
+            if (response.data == "True") {
+                $scope.showSuccess = true;
+                $scope.showError = false;
+                $scope.successMessage = "Supplier Deleted Successfully! Reloading please wait .......";
+                $timeout(function () {
+                    $window.location.reload();
+                }, 3000); // reload after 3 seconds
+            }
+            else {
+                $scope.showSuccess = false;
+                $scope.showError = true;
+                $scope.errorMessage = "Error while Deleteing. Contact Admin";
+            }
+
+        }, function (response) {
+            $scope.showSuccess = false;
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
    
 });

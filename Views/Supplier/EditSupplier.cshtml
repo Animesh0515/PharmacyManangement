@@ -29,7 +29,7 @@
             {{errorMessage}}
         </div>
         <div class="alert alert-success" role="alert" ng-if="showSuccess">
-            Supplier Edited Sucessfully! Reloading Please Wait .....
+            {{successMessage}}
         </div>
 
 
@@ -78,8 +78,9 @@
                         <td>
                             <a>
                                 <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editSupplier(value)" ng-show="!value.editing"></i>
-                                <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveSupplier(value)" ng-show="value.editing"></i>
-                                <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi bi-trash3" ng-click="deleteSupplier(value.SupplierId)"></i>
+                                 <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveSupplier(value)" ng-show="value.editing"></i>
+                                 <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
                             </a>
                         </td>
                     </tr>

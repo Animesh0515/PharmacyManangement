@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View</h2>
 
 <head>
     <link href="~/Content/style.css" rel="stylesheet" />
@@ -24,7 +23,7 @@
     <div class="row justify-content-center" ng-controller="MedicineController">
         <div class="col-md-7">
             <div class="login-form-container" style="max-width: 645px !important;">
-                <h2>Add New Supplier</h2>
+                <h2>Add New Medicine</h2>
                 <div class="alert alert-danger" role="alert" ng-if="showError">
                     {{errorMessage}}
                 </div>
@@ -34,19 +33,19 @@
                 <p>Please enter medicine details.</p>
                 <form ng-submit="submitForm()" name="myForm">
                     <div class="form-group mb-3">
-                        <label for="Name">Supplier Name</label>
+                        <label for="Name">Medicine Name</label>
                         <input type="text" class="form-control" ng-model="Name" placeholder="Enter Medicine Name" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="ContactNumber">Contact Number</label>
+                        <label for="ContactNumber">Description</label>
                         <input type="text" class="form-control" ng-model="Description" placeholder="Enter Description" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="Email">Email</label>
+                        <label for="Email">Price</label>
                         <input type="number" class="form-control" ng-model="Price" placeholder="Enter  Price" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="Address">Address</label>
+                        <label for="Address">PAcking Type</label>
                         <input type="text" class="form-control" ng-model="PackingType" placeholder="Packing Type" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block" style="width:100%">Add</button>
