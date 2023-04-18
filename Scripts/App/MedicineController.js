@@ -6,6 +6,7 @@
                 "MedicineName": $scope.Name,
                 "Description": $scope.Description,
                 "Price": $scope.Price,
+                "ExpiryDate": $scope.ExpiryDate,
                 "PackingType": $scope.PackingType
             }
 
@@ -75,22 +76,24 @@
         $scope.showError = false;
         $scope.showError = false;
         //Checking if any value is not passed in input text
-        if (medicine.MedicineName == "" || medicine.Description == "" || medicine.Price == "" || medicine.PackingType == "") {
+        if (medicine.MedicineName == "" || medicine.Description == "" || medicine.Price == "" || medicine.PackingType == "" || medicine.ExpiryDate == "") {
             $scope.showError = true;
             $scope.errorMessage = "Missing Field ! Fill out all fields.";
         }
         else {
 
             var model = {
+                "MedicineId": medicine.MedicineId,
                 "MedicineName": medicine.MedicineName,
                 "Description": medicine.Description,
                 "Price": medicine.Price,
-                "PackingType": medicine.PackingType
+                "PackingType": medicine.PackingType,
+                "ExpiryDate": medicine.ExpiryDate
             }
             $http({
                 method: 'POST',
                 url: '/Medicine/EditMedicine',
-                data: medicine
+                data: model
             }).then(function (response) {
                 if (response.data == "True") {
                     $scope.showSuccess = true;
@@ -114,17 +117,64 @@
         }
     };
 
-    $scope.reverse = false;
+    $scope.removeMedicine = function (medicine) {
+
+        $scope.showError = false;
+        $scope.showError = false;
+
+            var model = {
+                "MedicineId": medicine.MedicineId
+            }
+            $http({
+                method: 'POST',
+                url: '/Medicine/RemoveMedicine',
+                data: model
+            }).then(function (response) {
+                if (response.data == "True") {
+                    $scope.showSuccess = true;
+                    medicine.editing = false;
+                    $scope.isEdit = false;
+                    $timeout(function () {
+                        $window.location.reload();
+                    }, 3000); // reload after 3 seconds
+                }
+                else {
+                    $scope.showError = true;
+                    $scope.errorMessage = "Cannot remove medicine. Please Try Again.";
+                }
+
+
+
+            }, function (response) {
+                $scope.showError = true;
+                $scope.errorMessage = "Something Went Wrong. Contact Admin";
+            });
+    };
+
     $scope.createdDate = 'CreatedDate';
 
     $scope.sortAsc = function () {
         $scope.createdDate = 'CreatedDate';
+        console.log("we aer in asc");
         //$scope.reverse = false;
     };
 
     $scope.sortDesc = function () {
         $scope.createdDate = '-CreatedDate';
         //$scope.reverse = true;
+    };
+
+    $scope.sortExp = function () {
+        // Filter out records with ExpiryDate greater than or equal to current time
+        var filteredList = $scope.MedicineList.filter(function (item) {
+            return new Date(item.ExpiryDate) < new Date();
+        });
+        // Sort the filtered list by ExpiryDate
+        filteredList.sort(function (a, b) {
+            return new Date(a.ExpiryDate) - new Date(b.ExpiryDate);
+        });
+        // Replace the existing MedicineList with the sorted and filtered list
+        $scope.MedicineList = filteredList;
     };
 
 

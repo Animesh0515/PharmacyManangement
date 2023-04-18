@@ -12,7 +12,7 @@ using System.Reflection;
 namespace PharmacyManagement.Controllers
 {
 
-    public class MedicineController : Controller
+    public class MedicineController : BaseController
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
 
@@ -30,7 +30,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Insert into Medicines (MedicineName, Description, Price, CreatedDate, CreatedBy, DeletedFlag, PackingType) values('" + model.MedicineName + "','" + model.Description + "','" + model.Price + "','" + DateTime.Now + "','" + (int)Session["UserId"] + "','N', '"+model.PackingType+"')";
+                    string query = "Insert into Medicines (MedicineName, Description, Price, CreatedDate, CreatedBy, DeletedFlag, PackingType, ExpiryDate) values('" + model.MedicineName + "','" + model.Description + "','" + model.Price + "','" + DateTime.Now + "','" + (int)Session["UserId"] + "','N', '"+model.PackingType+"', '" + model.ExpiryDate + "')";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -40,7 +40,7 @@ namespace PharmacyManagement.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -61,7 +61,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select Medicineid, MedicineName, Description, Price, PackingType, CreatedDate from Medicines where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string query = "Select Medicineid, MedicineName, Description, Price, PackingType, CreatedDate, ExpiryDate from Medicines where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -76,6 +76,7 @@ namespace PharmacyManagement.Controllers
                                 medicine.Price = decimal.Parse(reader[3].ToString());
                                 medicine.PackingType = reader[4].ToString();
                                 medicine.CreatedDate = DateTime.Parse(reader[5].ToString()).ToString("yyyy-MM-dd");
+                                medicine.ExpiryDate = DateTime.Parse(reader[6].ToString()).ToString("yyyy-MM-dd");
                                 medicinelst.Add(medicine);
                             }
                             return Json(medicinelst, JsonRequestBehavior.AllowGet);
@@ -84,7 +85,7 @@ namespace PharmacyManagement.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(medicinelst, JsonRequestBehavior.AllowGet);
 
@@ -100,7 +101,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Update Medicines  set MedicineName='" + model.MedicineName + "', Price='" + model.Price + "', Description='" + model.Description + "', PackingType='" + model.PackingType + "' where MedicineId=" + model.MedicineId + "";
+                    string query = "Update Medicines  set MedicineName='" + model.MedicineName + "', Price='" + model.Price + "', Description='" + model.Description + "', PackingType='" + model.PackingType + "', ExpiryDate='" + model.ExpiryDate + "' where MedicineId=" + model.MedicineId + "";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -108,6 +109,31 @@ namespace PharmacyManagement.Controllers
                         return true;
 
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+        [HttpPost]
+        public bool RemoveMedicine(MedicineModel medicine)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string queryCount = "Update Medicines set DeletedFlag='Y' where MedicineId = " + medicine.MedicineId + ";";
+                    using (SqlCommand cmd = new SqlCommand(queryCount, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+
                 }
             }
             catch (Exception ex)

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "EditCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/CustomerController.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <style>
+        .form-control {
+            width: 70% !important;
+        }
+    </style>
+
+</head>
+<div ng-app="myApp">
+    <div class="bg-dark">
+        <h2 style="color: white; text-align: -webkit-center;">Customers</h2>
+    </div>
+    <div ng-controller="CustomerController" ng-init="getCustomer()">
+        <div class="alert alert-danger" role="alert" ng-if="showError">
+            {{errorMessage}}
+        </div>
+        <div class="alert alert-success" role="alert" ng-if="showSuccess">
+            Customer Updated Sucessfully! Reloading Please Wait.
+        </div>
+
+
+        <div class="container mt-4">
+            <div class="pb-5" style="width:120%;">
+                <i class="fs-5 bi bi-arrow-repeat" style="float:right; color: #0d6efd;" title="Refresh" onclick="location.reload();"></i>
+            </div>
+            <div class="row mb-3 mx-0" style="width:121%;">
+                <div class="col">
+                    <label>Search</label>
+                    <input type="text" class="form-control mb-2" ng-model="searchText" placeholder="Search by Name, Email or Username ">
+                </div>
+                <div class="col-auto">
+                    <label class="px-4">Order by Name</label><br />
+                    <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
+                    <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
+                </div>
+            </div>
+        </div>
+        <div class="m-2">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="CustomerList.length >0" ng-repeat="(key, value) in CustomerList | filter:searchText | orderBy:Name">
+                        <th scope="row">{{key+1}}</th>
+                        <td hidden><input type="text" class="form-control" ng-model="value.CustomerId" value={{value.CustomerId}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.CustomerName" value={{value.CustomerName}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.MobileNumber" value={{value.MobileNumber}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Address" value={{value.Address}} ng-disabled="!value.editing"></td>
+                        <td><input type="text" class="form-control" ng-model="value.Email" value={{value.Email}} ng-disabled="!value.editing"></td>
+                        <td>
+                            <a>
+                                <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editCustomer(value)" ng-show="!value.editing"></i>
+                                <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveCustomer(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelCustomer(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi-trash3-fill" style="color: #0d6efd;" ng-click="removeCustomer(value)" ng-show="!value.editing"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-if= "CustomerList.length === 0">
+                        <td colspan="7" style="text-align: center;">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,118 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <link href="~/Content/dashboard.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    @*<script src="~/Scripts/App/DashboardController.js"></script>*@
+    <style>
+        .form-control {
+            width: 70% !important;
+        }
+    </style>
 
-<h2>Dashboard</h2>
+</head>
 
+<div ng-app="myApp">
+
+    <div class="title">
+        <h3><i class="fs-4 bi-house dashboard-logo" style="color: #000000;"></i> Dashboard</h3>
+        <i class="fs-4 bi-box-seam" style="color: #000000;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>
+    </div>
+    <hr />
+
+    <div class="report-parent" ng-controller="DashboardController" ng-init="getDailyReport()">
+
+        <div class="report">
+
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Total Customer</span>
+            </div>
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Total Supplier</span>
+            </div>
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Total Medicine</span>
+            </div>
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Out of Stock</span>
+            </div>
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Expired</span>
+            </div>
+            <div class="report-card">
+                <span id="total_customer">10</span>
+                <br />
+                <span class="report-card-title">Total Invoice</span>
+            </div>
+
+        </div>
+
+        <div class="general-report">
+            <h5>Todays Report</h5>
+            <table border="1">
+                <tr class="table-row">
+                    <td class="row-title top-row">Total Sales</tdborder-right:>
+                    <td class="top-row">Rs 2656</td>
+                </tr>
+                <tr class="table-row">
+                    <td class="row-title">Total Purchase</td>
+                    <td>Rs 0</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <div class="dashboard-task">
+        <div class="task-card">
+            <i class="bi-journal-medical task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Create New Invoice</span>
+        </div>
+        <div class="task-card">
+            <i class="bi-people task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Add New Customer</span>
+        </div>        
+        <div class="task-card">
+            <i class="bi-file-medical task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Add New Medicine</span>
+        </div>        
+        <div class="task-card">
+            <i class="bi-person-rolodex task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Add New Supplier</span>
+        </div>        
+        <div class="task-card">
+            <i class="bi-paperclip task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Add New Purchase</span>
+        </div>        
+        <div class="task-card">
+            <i class="bi-currency-dollar task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Sales Report</span>
+        </div>        
+        <div class="task-card">
+            <i class="bi-grid-3x2 task-logo" style="color: #000000;"></i>
+            <br />
+            <span class="task-card-title">Purchase Report</span>
+        </div>
+    </div>
+
+</div>

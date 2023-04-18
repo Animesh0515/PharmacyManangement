@@ -73,6 +73,40 @@
         });
     };
 
+
+    $scope.removeSupplier = function (supplier) {
+
+        $scope.showError = false;
+        $scope.showError = false;
+
+        var model = {
+            "SupplierId": supplier.SupplierId
+        }
+        $http({
+            method: 'POST',
+            url: '/Supplier/RemoveSupplier',
+            data: model
+        }).then(function (response) {
+            if (response.data == "True") {
+                $scope.showSuccess = true;
+                supplier.editing = false;
+                $scope.isEdit = false;
+                $timeout(function () {
+                    $window.location.reload();
+                }, 3000); // reload after 3 seconds
+            }
+            else {
+                $scope.showError = true;
+                $scope.errorMessage = "Cannot remove supplier. Please Try Again.";
+            }
+
+        }, function (response) {
+            $scope.showError = true;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    };
+
+
     $scope.cancelEdit = function (supplier) {
         supplier.editing = false;
         $scope.isEdit = false;

@@ -1,0 +1,103 @@
+﻿.title{
+    display:flex;
+    justify-content:space-between;
+    margin:10px;
+}
+
+.dashboard-logo{
+    margin-right:10px;
+}
+
+hr {
+    margin: 10px;
+    border-top: 3px solid #ff0000;
+}
+
+.report-parent{
+    display:flex;
+    width:100%;
+    min-height:40%;
+    margin-inline:10px;
+    justify-content:space-between;
+    padding:20px;
+}
+
+.report{
+    width:60%;
+    height:100%;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between
+}
+
+.general-report{
+    border:1px solid red;
+    border-radius:5px;
+    width:30%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    margin-right:20px;
+}
+
+table{
+    width:90%;
+    height:45%;
+}
+table tr td{
+    padding:10px;
+}
+
+.row-title{
+    border-right: 1px solid black;
+}
+
+.top-row{
+    border-bottom: 1px solid black;
+}
+
+.report-card{
+    box-sizing:border-box;
+    width:200px;
+    height:80px;
+    border:1px solid #0094ff;
+    padding:10px;
+    border-radius:5px;
+    margin-top:10px;
+    margin-bottom:10px;
+    background:#b2cddd;
+
+}
+
+.report-card-title, .row-title{
+    font-weight:bold;
+}
+
+.dashboard-task {
+    display: flex;
+    margin: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 60%;
+    padding: 20px;
+}
+
+.task-card {
+    box-sizing: border-box;
+    border: 1px solid #0094ff;
+    border-radius: 5px;
+    width: 260px;
+    height: 150px;
+    text-align: center;
+    padding: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-inline: 20px;
+    background: #b2cddd;
+    font-weight: bold;
+}
+
+.task-logo{
+    font-size:40px;
+}

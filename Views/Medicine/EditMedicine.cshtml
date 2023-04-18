@@ -26,7 +26,7 @@
             {{errorMessage}}
         </div>
         <div class="alert alert-success" role="alert" ng-if="showSuccess">
-            Medicine Edited Sucessfully! Reloading Please Wait .....
+            Medicine Updated Sucessfully! Reloading Please Wait .....
         </div>
 
 
@@ -44,9 +44,10 @@
                     <input type="date" class="form-control mb-2" ng-model="searchDate" placeholder="Search by Created Date (yyyy-MM-dd)">
                 </div>
                 <div class="col-auto">
-                    <label class="px-4">Order by CreatedDate</label><br />
+                    <label class="px-4">Order by created date.</label><br />
                     <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
                     <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
+                    <button class="btn btn-primary mb-2" ng-click="sortExp()">Expiry Date</button>
                 </div>
             </div>
         </div>
@@ -60,6 +61,8 @@
                         <th scope="col">Price</th>
                         <th scope="col">Packing</th>
                         <th scope="col">Created At</th>
+                        <th scope="col">Expires At</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,11 +74,13 @@
                         <td><input type="text" class="form-control" ng-model="value.Price" value={{value.Price}} ng-disabled="!value.editing"></td>
                         <td><input type="text" class="form-control" ng-model="value.PackingType" value={{value.PackingType}} ng-disabled="!value.editing"></td>
                         <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
+                        <td><input type="text" class="form-control" ng-model="value.ExpiryDate" value={{value.ExpiryDate}} ng-disabled="!value.editing"></td>
                         <td>
                             <a>
                                 <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>
                                 <i class="fs-5 bi bi-file-earmark" style="color: #0d6efd;" ng-click="saveMedicine(value)" ng-show="value.editing"></i>
                                 <i class="fs-5 bi bi-x-square" style="color: #0d6efd;" ng-click="cancelEdit(value)" ng-show="value.editing"></i>
+                                <i class="fs-5 bi-trash3-fill" style="color: #0d6efd;" ng-click="removeMedicine(value)" ng-show="!value.editing"></i>
                             </a>
                         </td>
                     </tr>
@@ -85,5 +90,6 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "EditProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Profile</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/ProfileController.js"></script>
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+
+</head>
+<div ng-app="myApp">
+    <div class="container mt-5" style="right:0" ng-controller="ProfileController" ng-init="getProfile()">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                
+
+                <div class="login-form-container" >
+                    <h2>Edit Profile</h2>
+                    <div class="alert alert-danger" role="alert" ng-if="showError">
+                        {{errorMessage}}
+                    </div>
+                    <div class="alert alert-success" role="alert" ng-if="showSuccess">
+                        Profile Edited Sucessfully! Reloading Please Wait.
+                    </div>
+
+                    <div ng-if="Profile.length === 1" ng-repeat="(key, value) in Profile">
+
+
+                        
+                        <br/>
+                        <div style="display:flex; justify-content:space-evenly;">
+
+                            <button ng-click="uploadPhoto()" class="btn btn-primary btn-block" style="width:100px !important">Upload</button>
+                        </div>
+
+                        <br />
+                        <label for="value.name">Name</label>
+                        <input type="text" class="form-control" ng-model="value.Name" value={{value.Name}} ng-disabled="!value.editing">
+                        <br />
+
+                        <label for="value.MobileNumber">Mobile Number</label>
+                        <input type="text" class="form-control" ng-model="value.MobileNumber" value={{value.MobileNumber}} ng-disabled="!value.editing">
+                        <br />
+
+                        <label for="value.Address">Address</label>
+                        <input type="text" class="form-control" ng-model="value.Address" value={{value.Address}} ng-disabled="!value.editing">
+                        <br />
+
+                        <label for="value.Email">Email</label>
+                        <input type="text" class="form-control" ng-model="value.Email" value={{value.Email}} ng-disabled="!value.editing">
+                        <br />
+
+                        <label for="value.Username">Username</label>
+                        <input type="text" class="form-control" ng-model="value.Username" value={{value.Username}} ng-disabled="!value.editing">
+                        <br />
+
+                        <label for="value.Password">Password</label>
+                        <input type="password" class="form-control" ng-model="value.Password" value={{value.Password}} ng-disabled="!value.editing">
+                        <br />
+
+                        <div style="width:100%; display:flex; justify-content:space-evenly; align-items:center">
+                            <button ng-click="editProfile(value)" class="btn btn-primary btn-block" style="width:100px !important" ng-show="!value.editing">Edit</button>
+                            <button ng-click="saveProfile(value)" class="btn btn-primary btn-block" style="width:100px !important" ng-show="value.editing">Save</button>
+                            <button ng-click="cancelEdit(value)" class="btn btn-primary btn-block" style="width:100px !important" ng-show="value.editing">Cancel</button>
+                        </div>
+
+                    </div>
+
+                    <div ng-if="Profile.length > 1">
+                        <div class="alert alert-danger">Cannot Load Profile at the moment. Contact admin or try again later.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

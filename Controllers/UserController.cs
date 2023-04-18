@@ -12,99 +12,101 @@ using System.Web.Mvc;
 namespace PharmacyManagement.Controllers
 {
     
-    public class SupplierController : BaseController
+    public class UserController : BaseController
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
 
-        // GET: Supplier
-        public ActionResult AddSupplier()
+        public ActionResult AddUser()
         {
             return View();
-        } 
+        }
+        
         [HttpPost]
-        public bool AddSupplier(SupplierModel model)
+        public bool AddUser(UserModel users)
         {
             try
             {
+                string encodedPassword = Utility.AccountCreationHelper.Base64Encode(users.Password);
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Insert into Suppliers (SupplierName, ContactNumber,Email, Address,CreatedDate,CreatedBy,DeletedFlag) values('" + model.SupplierName + "','" + model.ContactNumber + "','" + model.Email + "','" + model.Address + "','"+DateTime.Now+"','"+ (int)Session["UserId"] + "','N')";
+                    string query = "Insert into Users (Name,MobileNumber,Address,Email,Username,Password,Role,DeletedFlag)" +
+                        "values('" + users.Name + "','" + users.MobileNumber + "','" + users.Address + "','" + users.Email + "','" + users.Username + "','" + encodedPassword + "','" + users.Role + "','N')";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                         return true;
-
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 return false;
             }
         }
 
         [HttpGet]
-        public ActionResult EditSupplier()
+        public ActionResult EditUser()
         {
             return View();
         }
 
-        public ActionResult GetSupplier()
+        public ActionResult GetUser()
         {
-            List<SupplierModel> modelList = new List<SupplierModel>();
+            List<UserModel> userlst = new List<UserModel>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select SupplierId, SupplierName,Email,Address,ContactNumber,CreatedDate from Suppliers where DeletedFlag='N' order by CreatedDate desc ";
+                    string query = "Select UserId, Name, MobileNumber, Address, Email, Username, Password, Role from Users where DeletedFlag='N'"; //getting all user that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
-                        using (var reader= cmd.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while(reader.Read())
+                            while (reader.Read())
                             {
-                                SupplierModel model = new SupplierModel();
-                                model.SupplierId = int.Parse(reader[0].ToString());
-                                model.SupplierName = reader[1].ToString();
-                                model.Email = reader[2].ToString();
-                                model.Address = reader[3].ToString();
-                                model.ContactNumber = int.Parse(reader[4].ToString());
-                                model.CreatedDate = DateTime.Parse(reader[5].ToString()).ToString("yyyy-MM-dd");                                
-                                modelList.Add(model);
+                                UserModel user = new UserModel(); //creating customer object
+                                user.UserId = int.Parse(reader[0].ToString());
+                                user.Name = reader[1].ToString();
+                                user.MobileNumber = int.Parse(reader[2].ToString());
+                                user.Address = reader[3].ToString();
+                                user.Email = reader[4].ToString();
+                                user.Username = reader[5].ToString();
+                                user.Password = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(reader[6].ToString())).ToString();
+                                reader[6].ToString();
+                                user.Role =char.Parse(reader[7].ToString());
+                                userlst.Add(user);
                             }
+                            return Json(userlst, JsonRequestBehavior.AllowGet);
+
                         }
                     }
-                    return Json(modelList, JsonRequestBehavior.AllowGet);
-                    
                 }
             }
             catch (Exception ex)
             {
-                return Json(modelList, JsonRequestBehavior.AllowGet);
+                return Json(userlst, JsonRequestBehavior.AllowGet);
 
             }
-
         }
 
         [HttpPost]
-        public bool EditSupplier(SupplierModel model)
+        public bool EditUser(UserModel model)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Update Suppliers  set SupplierName='"+model.SupplierName+"', ContactNumber='"+model.ContactNumber+"',Address='"+model.Address+"',Email='"+model.Email+"' where SupplierId="+model.SupplierId+"";
+                    string query = "Update Users  set Name='" + model.Name + "', MobileNumber='" +model.MobileNumber + "', Address='" + model.Address + "', Email='" + model.Email + "', Username ='" + model.Username + "', Password='" + Utility.AccountCreationHelper.Base64Encode(model.Password) + "', Role='" + model.Role + "' where UserId=" + model.UserId + ";";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                         return true;
-
                     }
                 }
             }
@@ -115,14 +117,14 @@ namespace PharmacyManagement.Controllers
         }
 
         [HttpPost]
-        public bool RemoveSupplier(SupplierModel supplier)
+        public bool RemoveUser(UserModel user)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string queryCount = "Update Suppliers set DeletedFlag='Y' where SupplierId = " + supplier.SupplierId + ";";
+                    string queryCount = "Update Users set DeletedFlag='Y' where UserId = " + user.UserId + ";";
                     using (SqlCommand cmd = new SqlCommand(queryCount, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -137,6 +139,9 @@ namespace PharmacyManagement.Controllers
                 return false;
             }
         }
+
+
+
 
     }
 }

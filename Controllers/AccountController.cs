@@ -72,7 +72,7 @@ namespace PharmacyManagement.Controllers
                
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
 
@@ -104,7 +104,7 @@ namespace PharmacyManagement.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

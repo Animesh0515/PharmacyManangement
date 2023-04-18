@@ -17,35 +17,10 @@ namespace PharmacyManagement.Controllers
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
 
-        // GET: Customer
-        public ActionResult Index()
+         [HttpGet]
+        public ActionResult EditCustomer()
         {
             return View();
-        }
-
-
-        //Adding new customer
-        [HttpPost]
-        public bool AddCustomer(CustomerModel customer)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = "Insert into Customer (CustomerName,MobileNumber,Address,Email,DeletedFlag)Values('" + customer.CustomerName + "', '" + customer.MobileNumber + "','" + customer.Address + "','"+customer.Email+"','N')";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
         }
 
         //Fetching all data of Customer
@@ -58,7 +33,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select * from Customer where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string query = "Select CustomerId, CustomerName, MobileNumber, Address, Email from Customer where DeletedFlag='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -82,9 +57,10 @@ namespace PharmacyManagement.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpStatusCodeResult(500, "An error occurred while retrieving the data. Please try again later.");            
+                return Json(customerlist, JsonRequestBehavior.AllowGet);
             }
         }
+
         [HttpPost]
         public bool EditCustomer(CustomerModel customer)
         {
@@ -93,7 +69,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn= new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Update Customer set CustomerName='"+customer.CustomerName+"', MobileNumber='"+customer.MobileNumber+"', Address='"+customer.Address+"',Email='"+customer.Email+"' where CustomerId='"+customer.CustomerId+"'";
+                    string query = "Update Customer set CustomerName='"+customer.CustomerName+"', MobileNumber='"+customer.MobileNumber+"', Address='"+customer.Address+"',Email='"+customer.Email+"' where CustomerId='"+ customer.CustomerId + "'";
                     using (SqlCommand cmd= new SqlCommand(query,conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -106,7 +82,6 @@ namespace PharmacyManagement.Controllers
             {
                 return false;
             }
-
         }
 
         [HttpPost]
@@ -131,5 +106,30 @@ namespace PharmacyManagement.Controllers
                 return false;
             }
         }
+
+        [HttpPost]
+        public bool RemoveCustomer(CustomerModel customer)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string queryCount = "Update Customer set DeletedFlag='Y' where CustomerId = " + customer.CustomerId + ";";
+                    using (SqlCommand cmd = new SqlCommand(queryCount, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }

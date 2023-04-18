@@ -133,6 +133,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -149,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo\logo.jpg" />
+    <Content Include="Assets\Profile\Default.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -2120,6 +2123,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -2130,6 +2134,9 @@
     <Content Include="Scripts\App\PurchaseController.js" />
     <Content Include="Scripts\App\SignupController.js" />
     <Content Include="Scripts\App\MedicineController.js" />
+    <Content Include="Scripts\App\CustomerController.js" />
+    <Content Include="Scripts\App\ProfileController.js" />
+    <Content Include="Scripts\App\UserController.js" />
     <Content Include="Scripts\App\SupplierController.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -2200,11 +2207,14 @@
     <Content Include="Views\Medicine\AddMedicine.cshtml" />
     <Content Include="Views\Medicine\EditMedicine.cshtml" />
     <Content Include="Views\Purchase\EditPurchase.cshtml" />
+    <Content Include="Views\User\AddUser.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\Customer\EditCustomer.cshtml" />
+    <Content Include="Views\Profile\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

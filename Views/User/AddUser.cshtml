@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/UserController.js"></script>
+    <style>
+        .form-control {
+            border-radius: 5px !important;
+        }
+    </style>
+</head>
+<div class="bg-dark">
+    <h2 style="color: white; text-align:-webkit-center">Add User</h2>
+</div>
+
+<div ng-app="myApp">
+    <div class="container mt-5" ng-controller="UserController">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="login-form-container">
+                    <div class="alert alert-danger" role="alert" ng-if="showError">
+                        {{errorMessage}}
+                    </div>
+                    <div class="alert alert-success" role="alert" ng-if="showSuccess">
+                        User Added Sucessfully!
+                    </div>
+                    <p>Please enter your details.</p>
+                    <form ng-submit="submitForm()" name="myForm">
+                        <div class="form-group mb-4">
+                            <label for="username">Full Name</label>
+                            <input type="text" class="form-control" ng-model="Name" placeholder="Enter username" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="MobileNumber">Contact Number</label>
+                            <input type="text" class="form-control" ng-model="MobileNumber" placeholder="Enter Contact Number" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="Address">Address</label>
+                            <input type="text" class="form-control" ng-model="Address" placeholder="Enter Address" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="Email">Email</label>
+                            <input type="email" class="form-control" ng-model="Email" placeholder="Enter Email" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" ng-model="Username" placeholder="Enter Email" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" ng-model="Password" placeholder="Enter password" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="Role">Role</label>
+                            <select class="form-select" ng-model="Role" aria-label="Floating label select example" required>
+                                <option value="P">Pharmacist</option>
+                                <option value="C">Cashier</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Add User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
