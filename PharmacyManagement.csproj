@@ -133,6 +133,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MedicineModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
+    <Compile Include="Models\SalesModel.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2132,6 +2135,8 @@
     <Content Include="Scripts\App\app.js" />
     <Content Include="Scripts\App\LoginController.js" />
     <Content Include="Scripts\App\PurchaseController.js" />
+    <Content Include="Scripts\App\ReportController.js" />
+    <Content Include="Scripts\App\SalesController.js" />
     <Content Include="Scripts\App\SignupController.js" />
     <Content Include="Scripts\App\MedicineController.js" />
     <Content Include="Scripts\App\CustomerController.js" />
@@ -2207,6 +2212,12 @@
     <Content Include="Views\Medicine\AddMedicine.cshtml" />
     <Content Include="Views\Medicine\EditMedicine.cshtml" />
     <Content Include="Views\Purchase\EditPurchase.cshtml" />
+    <Content Include="Views\Sales\AddSales.cshtml" />
+    <Content Include="Views\Sales\EditSales.cshtml" />
+    <Content Include="Views\Sales\GetSales.cshtml" />
+    <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Sales\SalesInvoiceTemplate.cshtml" />
+    <Content Include="Views\Report\PurchaseReport.cshtml" />
     <Content Include="Views\User\AddUser.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Customer\EditCustomer.cshtml" />
@@ -2215,6 +2226,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

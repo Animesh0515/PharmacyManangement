@@ -11,6 +11,7 @@ namespace PharmacyManagement.Models
         public string MedicineName { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
         public string CreatedDate { get; set; }
         public string ExpiryDate { get; set; }
         public int  CreatedBy { get; set; }

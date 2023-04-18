@@ -10,7 +10,7 @@ namespace PharmacyManagement.Models
 
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public int ContactNumber { get; set; }
+        public Int64 ContactNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
         public string CreatedDate { get; set; }

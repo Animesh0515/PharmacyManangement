@@ -8,12 +8,11 @@
     <link href="~/Content/style.css" rel="stylesheet" />
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
-    <script src="~/Scripts/App/PurchaseController.js"></script>
-    <script src="~/Scripts/App/SupplierController.js"></script>
+    <script src="~/Scripts/App/SalesController.js"></script>
     @*<script src="~/Scripts/bootstrap.bundle.min.js"></script>*@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
-    
+
 
     <style>
         .form-control {
@@ -43,43 +42,50 @@
     </style>
 </head>
 <div class="bg-dark">
-    <h2 style="color: white; text-align: -webkit-center;">Edit Purchase</h2>
+    <h2 style="color: white; text-align: -webkit-center;">Edit Sales</h2>
 </div>
 <div ng-app="myApp">
-    <div ng-controller="PurchaseController" ng-init="GetPurchaseEditData()">
+    <div ng-controller="SalesController" ng-init="GetSalesEditData()">
 
         <div class="row">
-            <h5>Edit your purchase details</h5>            
+            <h5>Edit your sales details</h5>
         </div>
         <hr />
-        <div class="alert alert-danger" role="alert" ng-if="showPurchaseError">
-            {{purchaseErrorMessage}}
+        <div class="alert alert-danger" role="alert" ng-if="showSalesError">
+            {{salesErrorMessage}}
         </div>
-        <div class="alert alert-success" role="alert" ng-if="showPurchaseSuccess">
-            Purchase Edited Sucessfully!
+        <div class="alert alert-success" role="alert" ng-if="showSalesSuccess">
+            Sales Edited Sucessfully!
         </div>
         <div class="row mx-0 mb-2">
             <div class="col-3">
-                <label for="Name">Select Supplier</label>
+                <label for="Name">Select Customer</label>
                 @*AutoComplete text box*@
-                <input type="text" id="inputElement" class="form-control" ng-model="supplier" ng-change="setSupplierId(supplierName)" typeahead="supplier.SupplierName for supplier in SupplierList | filter:$viewValue | limitTo:8">
+                <input type="text" id="inputElement" class="form-control" ng-model="customer" ng-change="setCustomerId(customer)" typeahead="customer.CustomerName for customer in CustomerList | filter:$viewValue | limitTo:8">
+            </div>
+
+            <div class="col-3">
+                <label for="SalesDate">Sales Date</label>
+                <input type="date" class="form-control" ng-model="SalesDate" placeholder="Select Sales Date" required>
             </div>
             <div class="col-3">
-                <label for="Name">Purchase Date</label>
-                <input type="date" class="form-control" ng-model="PurchasedDate" placeholder="Select Purchase Date" required>
+                <label for="MobileNumber">Mobile number</label>
+                <input type="text" class="form-control" ng-model="MobileNumber" placeholder="Enter Mobile Number" required>
             </div>
             <div class="col-3">
-                <label for="Name">Batch No</label>
-                <input type="text" class="form-control" ng-model="BatchNumber" placeholder="Enter Batch Number" required>
+                <label for="Address">Address</label>
+                <input type="text" class="form-control" ng-model="Address" placeholder="Enter Address" required>
+            </div>
+
+        </div>
+        <div class="row mx-0 mb-4">
+            <div class="col-3">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" ng-model="Email" placeholder="Enter Email" required>
             </div>
             <div class="col-3">
-                <label for="Name">Payment Type</label>
-                <select class="form-select" aria-label="Select Payment Type" ng-model="PaymentType">
-                    <option value="Cash" selected>Cash</option>
-                    <option value="Online">Online</option>
-                    <option value="Card">Card</option>
-                    <option value="Due">Due</option>
-                </select>
+                <label for="Discount">Discount</label>
+                <input type="number" class="form-control" ng-model="Discount" ng-change="updateDiscountAmount()" max="100" placeholder="Enter Discount %" required>
             </div>
         </div>
         <form name="medicineForm" ng-submit="submitForm('edit')" class="ms-2">
@@ -88,7 +94,7 @@
                     <tr>
                         <th scope="col">Medicine Name</th>
                         <th scope="col">Packing Type</th>
-                        <th scope="col">Expiry Date</th>
+                        <th scope="col">Stock</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
                         <th scope="col">TotalAmount</th>
@@ -101,13 +107,13 @@
                             <select class="form-select" aria-label="Default select example"
                                     ng-model="medicine.MedicineId"
                                     ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
-                                    ng-change="medicine.PackingType = getMedicinePackingType(medicine.MedicineId)" ng-required="true">
+                                    ng-change="setMedicineDetails(medicine)" ng-required="true">
                             </select>
                         </td>
                         <td><input type="text" ng-model="medicine.PackingType" disabled></td>
-                        <td><input type="date" ng-model="medicine.ExpiryDate"></td>
-                        <td><input type="number" min="1" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
-                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)"></td>
+                        <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
+                        <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
+                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
                         <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
                         <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
 
@@ -121,6 +127,6 @@
         </form>
 
     </div>
-   
+
 </div>
 

@@ -6,7 +6,6 @@
                 "MedicineName": $scope.Name,
                 "Description": $scope.Description,
                 "Price": $scope.Price,
-                "ExpiryDate": $scope.ExpiryDate,
                 "PackingType": $scope.PackingType
             }
 
@@ -76,7 +75,7 @@
         $scope.showError = false;
         $scope.showError = false;
         //Checking if any value is not passed in input text
-        if (medicine.MedicineName == "" || medicine.Description == "" || medicine.Price == "" || medicine.PackingType == "" || medicine.ExpiryDate == "") {
+        if (medicine.MedicineName == "" || medicine.Description == "" || medicine.Price == "" || medicine.PackingType == "") {
             $scope.showError = true;
             $scope.errorMessage = "Missing Field ! Fill out all fields.";
         }
@@ -87,8 +86,8 @@
                 "MedicineName": medicine.MedicineName,
                 "Description": medicine.Description,
                 "Price": medicine.Price,
-                "PackingType": medicine.PackingType,
-                "ExpiryDate": medicine.ExpiryDate
+                "PackingType": medicine.PackingType
+                
             }
             $http({
                 method: 'POST',
@@ -151,11 +150,11 @@
             });
     };
 
+    
     $scope.createdDate = 'CreatedDate';
 
     $scope.sortAsc = function () {
         $scope.createdDate = 'CreatedDate';
-        console.log("we aer in asc");
         //$scope.reverse = false;
     };
 

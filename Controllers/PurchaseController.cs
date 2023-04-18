@@ -45,7 +45,7 @@ namespace PharmacyManagement.Controllers
                         }
                     }
                     string purchaseQuery = "Insert into Purchase(SupplierId,BatchNumber,PaymentType,GrandTotal,PurchasedDate,DeletedFlag,CreatedBy)" +
-                                        "values('" + model.SupplierId + "','" + model.BatchNumber + "','" + model.PaymentType + "','" + model.GrandTotal + "','" + model.PurchasedDate + "','N''" + (int)Session["UserId"] + "');";
+                                        "values('" + model.SupplierId + "','" + model.BatchNumber + "','" + model.PaymentType + "','" + model.GrandTotal + "','" + model.PurchasedDate + "','N','" + (int)Session["UserId"] + "');";
                     using (SqlCommand cmd = new SqlCommand(purchaseQuery, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -55,8 +55,9 @@ namespace PharmacyManagement.Controllers
                     string medicinePurchasedQuery = String.Empty;
                     foreach (var data in model.MedicinePurchasedModels)
                     {
-                        medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,CreatedBy,DeletedFlag,Quantity,TotalAmount)" +
-                                                  "values('" + data.MedicineId + "','" + purchaseId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
+                        medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,DeletedFlag,Quantity,TotalAmount)" +
+                                                  "values('" + data.MedicineId + "','" + purchaseId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');" +
+                                                  "Update Medicines set Quantity=Quantity+"+data.Quantity+" where MedicineId="+data.MedicineId+";"; //updating stock
                     }
                     using (SqlCommand cmd = new SqlCommand(medicinePurchasedQuery, conn))
                     {
@@ -64,6 +65,7 @@ namespace PharmacyManagement.Controllers
                         cmd.ExecuteNonQuery();
 
                     }
+                    
                     return true;
                 }
             }
@@ -117,14 +119,12 @@ namespace PharmacyManagement.Controllers
         [HttpPost]
         public ActionResult PurchaseInvoiceTemplate(PurchaseModel model)
         {
-            //PurchaseModel model = new PurchaseModel();
-            var MedicinePurchasedModels = GetMedicinePurchased(model.PurchaseId);
-            //var MedicinePurchasedModels = GetMedicinePurchased(id);
+            
+            var MedicinePurchasedModels = GetMedicinePurchased(model.PurchaseId);            
             if (MedicinePurchasedModels != null)
             {
                 model.MedicinePurchasedModels = MedicinePurchasedModels;
-                return PartialView(model);
-                //return View("PurchaseInvoiceTemplate", model: model, layout: null);
+                return PartialView(model);                
             }
             else
             {
@@ -143,7 +143,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select mp.*, m.MedicineName,m.PackingType from MedicinePurchased mp join Medicines m on mp.MedicineId=m.MedicineId where mp.PurchaseId=" + PurchaseId + " and mp.DeletedFlag ='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string query = "Select mp.*, m.MedicineName,m.PackingType,m.Quantity from MedicinePurchased mp join Medicines m on mp.MedicineId=m.MedicineId where mp.PurchaseId=" + PurchaseId + " and mp.DeletedFlag ='N'"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -163,6 +163,7 @@ namespace PharmacyManagement.Controllers
                                 purchase.TotalAmount = decimal.Parse(reader[8].ToString());
                                 purchase.MedicineName = reader[9].ToString();
                                 purchase.PackingType = reader[10].ToString();
+                                purchase.Stock = int.Parse(reader[11].ToString());
                                 purchaseList.Add(purchase);
                             }
                             return purchaseList;
@@ -254,6 +255,7 @@ namespace PharmacyManagement.Controllers
         [HttpPost]
         public bool EditPurchase(PurchaseModel model)
         {
+            //transaction scope helps to roll back  the data if any issue arises
             using (var transactionscope= new TransactionScope())
             {
                 try
@@ -273,7 +275,38 @@ namespace PharmacyManagement.Controllers
                         string medicinePurchasedQuery = String.Empty;
                         foreach (var data in model.MedicinePurchasedModels)
                         {
-                            medicinePurchasedQuery += "update  MedicinePurchased set MedicineId='" + data.MedicineId + "',Price='" + data.Price + "',ExpiryDate='" + data.ExpiryDate + "',Quantity='" + data.Quantity + "',TotalAmount='" + data.TotalAmount + "' where MedicinePurchasedId=" + data.MedicinePurchasedId+";";
+                            //maintaining the stock as editing purchase will affect the stock
+                            int previousQuantity = 0;
+                            string stockQuery= "Select Quantity from MedicinePurchased where MedicinePurchasedid=" + data.MedicinePurchasedId + ";";
+                            using (SqlCommand cmd= new SqlCommand(stockQuery,conn))
+                            {
+                                cmd.CommandType = CommandType.Text;
+                                 previousQuantity = (int)cmd.ExecuteScalar();
+                            }
+                            if(previousQuantity !=0)
+                            {
+                                MedicineController medicineController = new MedicineController();
+                                if(data.Quantity > previousQuantity)
+                                {
+                                    int diff = data.Quantity - previousQuantity;
+                                    medicineController.updateStock(data.MedicineId, diff, "Add");
+                                }
+                                else if(data.Quantity < previousQuantity)
+                                {
+                                    int diff = previousQuantity-data.Quantity;
+                                    medicineController.updateStock(data.MedicineId, diff, "Subtract");
+
+
+                                }
+                            }
+                                //Chekcing whether new row data is added if not then deleteing and inserting new one
+                                if (data.MedicinePurchasedId != 0)
+                                {
+                                    medicinePurchasedQuery += "Delete from MedicinePurchased where MedicinePurchasedid=" + data.MedicinePurchasedId + ";";
+                                }
+                            //medicinePurchasedQuery += "update  MedicinePurchased set MedicineId='" + data.MedicineId + "',Price='" + data.Price + "',ExpiryDate='" + data.ExpiryDate + "',Quantity='" + data.Quantity + "',TotalAmount='" + data.TotalAmount + "' where MedicinePurchasedId=" + data.MedicinePurchasedId+";";
+                            medicinePurchasedQuery += "Insert into MedicinePurchased (MedicineId,PurchaseId,Price,ExpiryDate,CreatedDate,DeletedFlag,Quantity,TotalAmount)" +
+                                                "values('" + data.MedicineId + "','" + model.PurchaseId + "','" + data.Price + "','" + data.ExpiryDate + "','" + DateTime.Now + "','N','" + data.Quantity + "','" + data.TotalAmount + "');";
                         }
                         using (SqlCommand cmd = new SqlCommand(medicinePurchasedQuery, conn))
                         {
@@ -289,10 +322,12 @@ namespace PharmacyManagement.Controllers
                 catch (Exception ex)
                 {
                     //rollback trasnaction
-                    transactionscope.Complete();
+                    transactionscope.Dispose();
                     return false;
                 }
             }
         }
+
+        
     }
 }

@@ -27,6 +27,7 @@ namespace PharmacyManagement.Models
         public int MedicineId { get; set; }
         public int PurchasId { get; set; }
         public string MedicineName { get; set; }
+        public int Stock { get; set; }
         public string PackingType { get; set; }
         public decimal Price { get; set; }
         public string ExpiryDate { get; set; }

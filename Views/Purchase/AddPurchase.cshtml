@@ -83,7 +83,7 @@
                 </select>
             </div>
         </div>
-        <form name="medicineForm" ng-submit="submitForm(add)" class="ms-2">
+        <form name="medicineForm" ng-submit="submitForm('add')" class="ms-2">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -102,13 +102,13 @@
                             <select class="form-select" aria-label="Default select example"
                                     ng-model="medicine.MedicineId"
                                     ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
-                                    ng-change="medicine.PackingType = getMedicinePackingType(medicine.MedicineId)" ng-required="true">
+                                    ng-change="getMedicinePackingType(medicine)" ng-required="true">
                             </select>
                         </td>
                         <td><input type="text" ng-model="medicine.PackingType" disabled></td>
                         <td><input type="date" ng-model="medicine.ExpiryDate"></td>
-                        <td><input type="number" min="1" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
-                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)"></td>
+                        <td><input type="number" min="1"  ng-model="medicine.Quantity"  ng-change="updateTotalAmount(medicine)"  style=" width: 100px;"></td>
+                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)"  style=" width: 100px;"></td>
                         <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
                         <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
 

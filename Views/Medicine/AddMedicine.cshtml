@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View</h2>
 
 <head>
     <link href="~/Content/style.css" rel="stylesheet" />
@@ -24,6 +23,7 @@
     <div class="row justify-content-center" ng-controller="MedicineController">
         <div class="col-md-7">
             <div class="login-form-container" style="max-width: 645px !important;">
+                <h2>Add New Medicine</h2>
                 <div class="alert alert-danger" role="alert" ng-if="showError">
                     {{errorMessage}}
                 </div>
@@ -44,10 +44,7 @@
                         <label for="Price">Price</label>
                         <input type="number" class="form-control" ng-model="Price" placeholder="Enter  Price" required>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="PackingType">Expiry Date</label>
-                        <input type="date" class="form-control" ng-model="ExpiryDate" placeholder="Expiry Date" required>
-                    </div>
+                   
                     <div class="form-group mb-3">
                         <label for="PackingType">Packing Type</label>
                         <input type="text" class="form-control" ng-model="PackingType" placeholder="Packing Type" required>
