@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -48,7 +49,7 @@ namespace PharmacyManagement.Controllers
                                 user.Username = reader[5].ToString();
                                 user.Password = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(reader[6].ToString())).ToString();
                                 user.Role =char.Parse(reader[7].ToString());
-                               // user.Image = "~/Assets/Profile/Default.png";
+                                user.Image = reader[8].ToString();
                                 userlst.Add(user);
                             }
                             return Json(userlst, JsonRequestBehavior.AllowGet);
@@ -57,9 +58,10 @@ namespace PharmacyManagement.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(userlst, JsonRequestBehavior.AllowGet);
+                return new HttpStatusCodeResult(500, "An error occurred while retrieving the data. Please try again later.");
+
 
             }
         }
@@ -89,7 +91,59 @@ namespace PharmacyManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public bool UploadImage()
+        {
+            try
+            {
+                HttpPostedFileBase file = Request.Files[0];
+                var userID = Request.Form[0];
+                var fileName = Guid.NewGuid().ToString() + ".jpg";                
+                string path = Path.Combine(Server.MapPath("~/Assets/Profile/"), fileName);
+                file.SaveAs(path);
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();                    
+                    string query = "Update Users  set Image='/Assets/Profile/"+fileName+"' where UserId=" + userID + ";";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();                        
+                    }
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
 
+        }
+
+
+        [HttpPost]
+        public bool DeleteProfileImage(int UserId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "Update Users  set Image=NULL where UserId=" + UserId + ";";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
+        }
 
 
     }
