@@ -86,7 +86,8 @@
                 "MedicineName": medicine.MedicineName,
                 "Description": medicine.Description,
                 "Price": medicine.Price,
-                "PackingType": medicine.PackingType
+                "PackingType": medicine.PackingType,
+                "Quantity": medicine.Quantity
                 
             }
             $http({
@@ -163,18 +164,18 @@
         //$scope.reverse = true;
     };
 
-    $scope.sortExp = function () {
-        // Filter out records with ExpiryDate greater than or equal to current time
-        var filteredList = $scope.MedicineList.filter(function (item) {
-            return new Date(item.ExpiryDate) < new Date();
-        });
-        // Sort the filtered list by ExpiryDate
-        filteredList.sort(function (a, b) {
-            return new Date(a.ExpiryDate) - new Date(b.ExpiryDate);
-        });
-        // Replace the existing MedicineList with the sorted and filtered list
-        $scope.MedicineList = filteredList;
-    };
+    //$scope.sortExp = function () {
+    //    // Filter out records with ExpiryDate greater than or equal to current time
+    //    var filteredList = $scope.MedicineList.filter(function (item) {
+    //        return new Date(item.ExpiryDate) < new Date();
+    //    });
+    //    // Sort the filtered list by ExpiryDate
+    //    filteredList.sort(function (a, b) {
+    //        return new Date(a.ExpiryDate) - new Date(b.ExpiryDate);
+    //    });
+    //    // Replace the existing MedicineList with the sorted and filtered list
+    //    $scope.MedicineList = filteredList;
+    //};
 
 
    

@@ -47,7 +47,6 @@
                     <label class="px-4">Order by created date.</label><br />
                     <button class="btn btn-primary mb-2" ng-click="sortAsc()">Asc order</button>
                     <button class="btn btn-primary mb-2" ng-click="sortDesc()">Desc order</button>
-                    <button class="btn btn-primary mb-2" ng-click="sortExp()">Expiry Date</button>
                 </div>
             </div>
         </div>
@@ -62,7 +61,6 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Packing</th>
                         <th scope="col">Created At</th>
-                        <th scope="col">Expires At</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -76,7 +74,6 @@
                         <td><input type="text" class="form-control" ng-model="value.Quantity" value={{value.Quantity}} ng-disabled="!value.editing"></td>
                         <td><input type="text" class="form-control" ng-model="value.PackingType" value={{value.PackingType}} ng-disabled="!value.editing"></td>
                         <td><input type="text" class="form-control" ng-model="value.CreatedDate" value={{value.CreatedDate}} ng-disabled="true"></td>
-                        <td><input type="text" class="form-control" ng-model="value.ExpiryDate" value={{value.ExpiryDate}} ng-disabled="!value.editing"></td>
                         <td>
                             <a>
                                 <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>

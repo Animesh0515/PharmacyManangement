@@ -180,9 +180,7 @@
     };
 
 
-    $scope.Name = 'Name';
-
-    $scope.sortAsc = function () {
+     $scope.sortAsc = function () {
         $scope.Name = 'Name';
         //$scope.reverse = false;
     };
