@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ExpiredMedicineModel.cs" />
     <Compile Include="Models\MedicineModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\SalesModel.cs" />
@@ -2222,11 +2223,12 @@
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Customer\EditCustomer.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
+    <Content Include="Views\Medicine\ExpiredMedicine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\Icons\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,21 @@
 ﻿app.controller("MedicineController", function ($scope, $http, $window, $timeout) {
 
+    //For Expired Medicines part
+    $scope.getExpiredMedicine = function () {
+
+        $http({
+            method: 'Get',
+            url: '/Medicine/GetExpiredMedicine'
+        }).then(function (response) {
+            console.log("hello");
+            $scope.ExpiredMedicineList = response.data;
+            console.log($scope.ExpiredMedicineList);
+        }, function (response) {
+            $scope.showMedicineError = false;
+            $scope.showMedicineSuccess = true;
+            $scope.MedicineErrorMessage = "Something Went Wrong. Contact Admin";
+        });
+    };
     
     $scope.submitForm = function () {
             var model = {
@@ -151,8 +167,8 @@
             });
     };
 
-    
-    $scope.createdDate = 'CreatedDate';
+
+
 
     $scope.sortAsc = function () {
         $scope.createdDate = 'CreatedDate';

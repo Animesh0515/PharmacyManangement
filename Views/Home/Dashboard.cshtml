@@ -5,6 +5,9 @@
 }
 <head>
     <link href="~/Content/dashboard.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     @*<script src="~/Scripts/App/DashboardController.js"></script>*@
@@ -16,105 +19,228 @@
 
 </head>
 
-<div ng-app="myApp">
+<div ng-app="myApp" class="main">
+    <h1>Dashboard</h1>
+    <div class="insights">
 
-    <div class="title">
-        <h3><i class="fs-4 bi-house dashboard-logo" style="color: #000000;"></i> Dashboard</h3>
-        <i class="fs-4 bi-box-seam" style="color: #000000;" ng-click="editMedicine(value)" ng-show="!value.editing"></i>
-    </div>
-    <hr />
-
-    <div class="report-parent" ng-controller="DashboardController" ng-init="getDailyReport()">
-
-        <div class="report">
-
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Total Customer</span>
+        <div class="sales">
+            <span class="material-symbols-sharp">analytics</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Sales</h3>
+                    <h1>$ 30,000</h1>
+                </div>
+                <div class="dashboard_progress" ">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="sales_circle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
             </div>
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Total Supplier</span>
-            </div>
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Total Medicine</span>
-            </div>
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Out of Stock</span>
-            </div>
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Expired</span>
-            </div>
-            <div class="report-card">
-                <span id="total_customer">10</span>
-                <br />
-                <span class="report-card-title">Total Invoice</span>
-            </div>
-
+            <small class="text_muted">Last 24 hrs</small>
         </div>
+        <!--End of sales report for dashboard-->
 
-        <div class="general-report">
-            <h5>Todays Report</h5>
-            <table border="1">
-                <tr class="table-row">
-                    <td class="row-title top-row">Total Sales</tdborder-right:>
-                    <td class="top-row">Rs 2656</td>
-                </tr>
-                <tr class="table-row">
-                    <td class="row-title">Total Purchase</td>
-                    <td>Rs 0</td>
-                </tr>
+        <div class="users">
+            <span class="material-symbols-sharp">people</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Users</h3>
+                    <h1>900</h1>
+                </div>
+                <div class="dashboard_progress">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="users_circle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
+            </div>
+            <small class="text_muted">Last 24 hrs</small>
+        </div>
+        <!--End of sales report for dashboard-->
+
+        <div class="purchase">
+            <span class="material-symbols-sharp">shopping_bag</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Sales</h3>
+                    <h1>$ 3,000</h1>
+                </div>
+                <div class="dashboard_progress" ">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
+            </div>
+            <small class="text_muted">Last 24 hrs</small>
+        </div>
+        <!--End of sales report for dashboard-->
+
+        <div class="purchase">
+            <span class="material-symbols-sharp">shopping_bag</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Sales</h3>
+                    <h1>$ 3,000</h1>
+                </div>
+                <div class="dashboard_progress" ">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
+            </div>
+            <small class="text_muted">Last 24 hrs</small>
+        </div>
+        <!--End of sales report for dashboard-->
+
+        <div class="purchase">
+            <span class="material-symbols-sharp">shopping_bag</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Sales</h3>
+                    <h1>$ 3,000</h1>
+                </div>
+                <div class="dashboard_progress" ">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
+            </div>
+            <small class="text_muted">Last 24 hrs</small>
+        </div>
+        <!--End of sales report for dashboard-->
+
+        <div class="purchase">
+            <span class="material-symbols-sharp">shopping_bag</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Sales</h3>
+                    <h1>$ 3,000</h1>
+                </div>
+                <div class="dashboard_progress" ">
+                    <svg>
+                        <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>81%</p>
+                    </div>
+                </div>
+            </div>
+            <small class="text_muted">Last 24 hrs</small>
+        </div>
+        <!--End of sales report for dashboard-->
+
+
+    </div>
+
+    <div class="second-row">
+        <div class="recent-sales">
+            <h2>Recent Sales</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Medicine Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr @*ng-repeat="medicine in medicines"*@>
+                        @*<td style="width: 100%;">
+                            <select class="form-select" aria-label="Default select example"
+                                    ng-model="medicine.MedicineId"
+                                    ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
+                                    ng-change="setMedicineDetails(medicine)" ng-required="true">
+                            </select>
+                        </td>
+                        <td><input type="text" ng-model="medicine.PackingType" disabled></td>
+                        <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
+                        <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
+                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
+                        <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
+                        <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
+                        *@
+                        <td>MedName1</td>
+                        <td>20</td>
+                        <td>Rs 1,000</td>
+                        <td>Rs 20,000</td>
+                    </tr>
+@**@                    <tr>
+                        <td>MedName1</td>
+                        <td>20</td>
+                        <td>Rs 1,000</td>
+                        <td>Rs 20,000</td>
+                    </tr>
+                    <tr>
+                        <td>MedName1</td>
+                        <td>20</td>
+                        <td>Rs 1,000</td>
+                        <td>Rs 20,000</td>
+                    </tr>
+                    <tr>
+                        <td>MedName1</td>
+                        <td>20</td>
+                        <td>Rs 1,000</td>
+                        <td>Rs 20,000</td>
+                    </tr>
+                </tbody>
             </table>
+            <div class="centered-link">
+                <a href="#">Show All</a>
+            </div>
         </div>
 
-    </div>
-
-    <hr />
-
-    <div class="dashboard-task">
-        <div class="task-card">
-            <i class="bi-journal-medical task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Create New Invoice</span>
-        </div>
-        <div class="task-card">
-            <i class="bi-people task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Add New Customer</span>
-        </div>        
-        <div class="task-card">
-            <i class="bi-file-medical task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Add New Medicine</span>
-        </div>        
-        <div class="task-card">
-            <i class="bi-person-rolodex task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Add New Supplier</span>
-        </div>        
-        <div class="task-card">
-            <i class="bi-paperclip task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Add New Purchase</span>
-        </div>        
-        <div class="task-card">
-            <i class="bi-currency-dollar task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Sales Report</span>
-        </div>        
-        <div class="task-card">
-            <i class="bi-grid-3x2 task-logo" style="color: #000000;"></i>
-            <br />
-            <span class="task-card-title">Purchase Report</span>
-        </div>
+        <div class="stock-notification">
+            <h2>New in Stock</h2>
+            <div class="updates">
+                <div class="update">
+                    <div class="circle-image">
+                        A
+                    </div>
+                    <div class="message">
+                        <p>
+                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
+                        </p>
+                        <small>22/04/2023</small>
+                    </div>
+                </div>
+                <div class="update">
+                    <div class="circle-image">
+                        A
+                    </div>
+                    <div class="message">
+                        <p>
+                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
+                        </p>
+                        <small>22/04/2023</small>
+                    </div>
+                </div>
+                <div class="update">
+                    <div class="circle-image">
+                        A
+                    </div>
+                    <div class="message">
+                        <p>
+                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
+                        </p>
+                        <small>22/04/2023</small>
+                    </div>
+                </div>
+            </div>
     </div>
 
 </div>
