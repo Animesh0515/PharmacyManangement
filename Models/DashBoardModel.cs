@@ -8,6 +8,11 @@ namespace PharmacyManagement.Models
 {
     public class DashBoardModel
     {
+        public DashBoardModel() 
+        {
+            ExpiredMedicines = new List<ExpiredMedicine>();
+            RecentMedicines = new List<MedicineModel>();
+        }
         public int CustomerCount { get; set; }
         public int SupplierCount { get; set; }
         public int MedicineCount { get; set; }

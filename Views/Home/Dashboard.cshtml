@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
-    @*<script src="~/Scripts/App/DashboardController.js"></script>*@
+    <script src="~/Scripts/App/DashboardController.js"></script>
     <style>
         .form-control {
             width: 70% !important;
@@ -19,7 +19,10 @@
 
 </head>
 
-<div ng-app="myApp" class="main">
+<div ng-app="myApp" class="main" ng-controller="DashBoardController" ng-init="GetDashboardData()">
+    <div class="alert alert-danger" role="alert" ng-if="showError">
+        {{errorMessage}}
+    </div>    
     <h1>Dashboard</h1>
     <div class="insights">
 
@@ -161,25 +164,26 @@
                 <tbody>
                     <tr @*ng-repeat="medicine in medicines"*@>
                         @*<td style="width: 100%;">
-                            <select class="form-select" aria-label="Default select example"
-                                    ng-model="medicine.MedicineId"
-                                    ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
-                                    ng-change="setMedicineDetails(medicine)" ng-required="true">
-                            </select>
-                        </td>
-                        <td><input type="text" ng-model="medicine.PackingType" disabled></td>
-                        <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
-                        <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
-                        <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
-                        <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
-                        <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
+                                <select class="form-select" aria-label="Default select example"
+                                        ng-model="medicine.MedicineId"
+                                        ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
+                                        ng-change="setMedicineDetails(medicine)" ng-required="true">
+                                </select>
+                            </td>
+                            <td><input type="text" ng-model="medicine.PackingType" disabled></td>
+                            <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
+                            <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
+                            <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
+                            <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
+                            <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
                         *@
                         <td>MedName1</td>
                         <td>20</td>
                         <td>Rs 1,000</td>
                         <td>Rs 20,000</td>
                     </tr>
-@**@                    <tr>
+                    @**@
+                    <tr>
                         <td>MedName1</td>
                         <td>20</td>
                         <td>Rs 1,000</td>
@@ -241,6 +245,6 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
-</div>
+    </div>

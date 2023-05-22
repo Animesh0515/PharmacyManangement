@@ -2135,6 +2135,7 @@
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\App\app.js" />
+    <Content Include="Scripts\App\DashboardController.js" />
     <Content Include="Scripts\App\LoginController.js" />
     <Content Include="Scripts\App\PurchaseController.js" />
     <Content Include="Scripts\App\ReportController.js" />

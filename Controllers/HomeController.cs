@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -29,9 +30,8 @@ namespace PharmacyManagement.Controllers
             DashBoardModel model= new DashBoardModel();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using (SqlCommand command= new SqlCommand())
-                {
-                    string queries = "Select Count(1) from Customer where DeletedFlag='N';" +
+                conn.Open();
+                string queries = "Select Count(1) from Customer where DeletedFlag='N';" +
                         "Select Count(1) from Suppliers where DeletedFlag='N';" +
                         "Select Count(1) from Medicines where DeletedFlag='N'; " +
                         "Select Count(1) from Medicines where DeletedFlag='N' and Quantity<1; " +
@@ -40,7 +40,9 @@ namespace PharmacyManagement.Controllers
                         "Select MedicineName, PackingType, mp.CreatedDate, ExpiryDate from Medicines m join MedicinePurchased mp on m.MedicineId=mp.MedicineId where ExpiryDate < CONVERT(DATE, GETDATE()) and m.DeletedFlag='N' and mp.DeletedFlag='N';" +
                         "select MedicineName, mp.CreatedDate from Medicines m join MedicinePurchased mp on m.MedicineId=mp.MedicineId where mp.CreatedDate > DATEADD(DAY, -7, GETDATE());";
 
-                    command.CommandText = queries;
+                using (SqlCommand command= new SqlCommand(queries,conn))       
+                { 
+                    command.CommandType=CommandType.Text;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -70,7 +72,7 @@ namespace PharmacyManagement.Controllers
                         
                         reader.NextResult();
 
-                        // Process the fourth query result
+                        
                         if (reader.Read())
                         {
                             model.MedicineOutOfStock= reader.GetInt32(0);
@@ -79,7 +81,7 @@ namespace PharmacyManagement.Controllers
                         
                         reader.NextResult();
 
-                        // Process the fourth query result
+                        
                         if (reader.Read())
                         {
                             model.SalesCount= reader.GetInt32(0);
@@ -88,7 +90,7 @@ namespace PharmacyManagement.Controllers
                         
                         reader.NextResult();
 
-                        // Process the fourth query result
+                        
                         if (reader.Read())
                         {
                             model.PurchaseCount= reader.GetInt32(0);
@@ -97,26 +99,26 @@ namespace PharmacyManagement.Controllers
                         
                         reader.NextResult();
 
-                        // Process the fourth query result
+                       
                         while (reader.Read())
                         {
                             ExpiredMedicine expiredMed= new ExpiredMedicine();
                             expiredMed.MedicineName= reader.GetString(0);
                             expiredMed.PackingType= reader.GetString(1);
-                            expiredMed.CreatedDate= reader.GetString(2);
-                            expiredMed.ExpiryDate= reader.GetString(3);
+                            expiredMed.CreatedDate= reader.GetDateTime(2).ToString();
+                            expiredMed.ExpiryDate= reader.GetDateTime(3).ToString();
                             
                             model.ExpiredMedicines.Add(expiredMed);
                         }
                         
                         reader.NextResult();
 
-                        // Process the fourth query result
+                       
                         while (reader.Read())
                         {
                             MedicineModel medicine = new MedicineModel();
                             medicine.MedicineName= reader.GetString(0);
-                            medicine.CreatedDate= reader.GetString(1);
+                            medicine.CreatedDate= reader.GetDateTime(1).ToString();
                             
                             model.RecentMedicines.Add(medicine);
                         }
