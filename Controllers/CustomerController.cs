@@ -57,7 +57,8 @@ namespace PharmacyManagement.Controllers
             }
             catch (Exception ex)
             {
-                return Json(customerlist, JsonRequestBehavior.AllowGet);
+                return new HttpStatusCodeResult(500, "An error occurred while retrieving the data. Please try again later.");
+
             }
         }
 

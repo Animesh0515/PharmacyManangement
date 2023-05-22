@@ -11,6 +11,7 @@
 
         }, function () {
             $scope.showError = true;
+
             $scope.errorMessage = "Something Went Wrong. Contact Admin";
         });
     };
@@ -56,21 +57,20 @@
 
     };
 
-    $scope.saveProfile = function (user) {
-
-
-        $scope.showError = false;
-        $scope.showError = false;
+    $scope.saveProfile = function (user) {      
 
         //Checking if any value is not passed in input text
         if (user.Name == "" || user.MobileNumber == "" || user.Address == "" || user.Email == "" || user.Username == "" || user.Password == "") {
             $scope.showError = true;
+            $scope.showSuccess = false;
             $scope.errorMessage = "Missing Field ! Fill out all fields.";
         }
         else if (isNaN(user.MobileNumber)) {
             $scope.showError = true;
+            $scope.showSuccess = false;
             $scope.errorMessage = "Not a valid contact number.";
         } else if (user.MobileNumber.toString().length != 10) {  /*Checking Length of Number to be 10 digit*/
+            $scope.showSuccess = false;
             $scope.showError = true;
             $scope.errorMessage = "Not a valid contact number. Must be 10 digit";
         }
@@ -92,6 +92,8 @@
             }).then(function (response) {
                 if (response.data == "True") {
                     $scope.showSuccess = true;
+                    $scope.showError = false;
+                    $scope.successMessage = "Profile Edited Sucessfully! Reloading Please Wait.";
                     user.editing = false;
                     $scope.isEdit = false;
                     $timeout(function () {
@@ -100,6 +102,7 @@
                 }
                 else {
                     $scope.showError = true;
+                    $scope.showSuccess = false;
                     $scope.errorMessage = "Error while updating. Please Try Again.";
                 }
 
@@ -107,6 +110,7 @@
 
             }, function (response) {
                 $scope.showError = true;
+                $scope.showSuccess = false;
                 $scope.errorMessage = "Something Went Wrong. Contact Admin";
             });
         }
@@ -115,5 +119,94 @@
     $scope.onSelect = function (event) {
         console.log(event);
     }
+    $scope.removePicture = function (UserId)
+    {
+        $http({
+            method: 'POST',
+            url: '/Profile/DeleteProfileImage',
+            data: { UserId: UserId}
+        }).then(function (response) {
+            if (response.data == "True") {
+                $scope.showSuccess = true;
+                $scope.showError = false;
+                $scope.successMessage = "Profile Image Removed Sucessfully! Reloading Please Wait.";                
+                $timeout(function () {
+                    $window.location.reload();
+                }, 3000); // reload after 3 seconds
+            }
+            else {
+                $scope.showError = true;
+                $scope.showSuccess = false;
+                $scope.errorMessage = "Error while Removing. Please Try Again.";
+            }
 
+
+
+        }, function (response) {
+            $scope.showError = true;
+            $scope.showSuccess = false;
+            $scope.errorMessage = "Something Went Wrong. Contact Admin";
+        });
+    }
+    $scope.file = null;
+
+    $scope.uploadPicture = function (UserId) {
+        if ($scope.file) {
+            var fileData = new FormData();
+            fileData.append("file", $scope.file);
+            fileData.append("userId", UserId);
+
+            $http.post("/Profile/UploadImage", fileData, {
+                transformRequest: angular.identity,
+                headers: { "Content-Type": undefined }
+            }).then(function (response) {
+                if (response.data = "True") {
+                    $scope.showError = false;
+                    $scope.showSuccess = true;
+                    $scope.successMessage = "Successfully Uploaded Image. Please wait reloading...";
+                    $timeout(function () {
+                        $window.location.reload();
+                    }, 3000);
+                }
+                else {
+                    $scope.showError = true;
+                    $scope.showSuccess = false;
+                    $scope.errorMessage = "Error while uploading Image! Contact admin";
+                }
+            }, function (error) {
+                $scope.showError = true;
+                $scope.showSuccess = false;
+                $scope.errorMessage = "Something went wrong! Contact admin";
+            });
+        }
+        else {
+            $scope.showError = true;
+            $scope.showSuccess = false;
+            $scope.errorMessage = "Select File First!";
+        }
+    };
+
+
+    //event listerner that gets invoked when file is chosen
+    function addFileListener() {
+        angular.element(document.querySelector("#formFile")).on("change", function (event) {
+            $scope.$apply(function () {
+                var file = event.target.files[0];
+                var validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+                if (validImageTypes.indexOf(file.type) === -1) {
+                    $scope.showError = true;
+                    $scope.showSuccess = false;
+                    $scope.errorMessage = "Please select a valid image file.";                    
+                    event.target.value = null; // Clear the file input to allow selecting another file
+                    $scope.file = null; // Reset the $scope.file variable
+                } else {
+                    $scope.file = file;
+                }
+            });
+        });
+    }
+
+    angular.element(document).ready(function () {
+        addFileListener();
+    });
 });
