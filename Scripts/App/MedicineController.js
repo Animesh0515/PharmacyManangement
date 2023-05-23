@@ -55,8 +55,7 @@
         $http({
             method: 'Get',
             url: '/Medicine/GetMedicine'
-        }).then(function (response) {           
-           
+        }).then(function (response) {
                 $scope.MedicineList = response.data;
             
         }, function (response) {

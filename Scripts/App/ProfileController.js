@@ -6,9 +6,10 @@
             method: 'Get',
             url: '/Profile/GetProfile'
         }).then(function (response) {
+            console.log("hello");
+            console.log(response);
 
             $scope.Profile = response.data;
-
         }, function () {
             $scope.showError = true;
 

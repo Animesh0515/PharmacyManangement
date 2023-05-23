@@ -264,3 +264,10 @@ small {
         padding:0;
         color: var(--color-white);
     }
+
+.empty-stock{
+    width:100%;
+    text-align:center;
+    height:100%;
+
+}

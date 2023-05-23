@@ -19,7 +19,7 @@
 
 </head>
 
-<div ng-app="myApp" class="main" ng-controller="DashBoardController" ng-init="GetDashboardData()">
+<div ng-app="myApp" class="main" ng-controller="DashboardController" ng-init="GetDashboardData()">
     <div class="alert alert-danger" role="alert" ng-if="showError">
         {{errorMessage}}
     </div>    
@@ -30,10 +30,10 @@
             <span class="material-symbols-sharp">analytics</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Total Sales</h3>
-                    <h1>$ 30,000</h1>
+                    <h3>Medicines</h3>
+                    <h1 ng-model="dashboard.MedicineCount">{{dashboard.MedicineCount}}</h1>
                 </div>
-                <div class="dashboard_progress" ">
+                <div class="dashboard_progress" >
                     <svg>
                         <circle cx="38" cy="38" r="36" class="sales_circle"></circle>
                     </svg>
@@ -50,8 +50,8 @@
             <span class="material-symbols-sharp">people</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Total Users</h3>
-                    <h1>900</h1>
+                    <h3>Customers</h3>
+                    <h1 ng-model="dashboard.CustomerCount">{{dashboard.CustomerCount}}</h1>
                 </div>
                 <div class="dashboard_progress">
                     <svg>
@@ -70,8 +70,8 @@
             <span class="material-symbols-sharp">shopping_bag</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Total Sales</h3>
-                    <h1>$ 3,000</h1>
+                    <h3>Suppliers</h3>
+                    <h1 ng-model="dashboard.SupplierCount">{{dashboard.CustomerCount}}</h1>
                 </div>
                 <div class="dashboard_progress" ">
                     <svg>
@@ -91,7 +91,7 @@
             <div class="middle">
                 <div class="left">
                     <h3>Total Sales</h3>
-                    <h1>$ 3,000</h1>
+                    <h1 ng-model="dashboard.SalesCount">{{dashboard.SalesCount}}</h1>
                 </div>
                 <div class="dashboard_progress" ">
                     <svg>
@@ -110,8 +110,8 @@
             <span class="material-symbols-sharp">shopping_bag</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Total Sales</h3>
-                    <h1>$ 3,000</h1>
+                    <h3>Out of Stock</h3>
+                    <h1 ng-model="dashboard.MedicineOutOfStock">{{dashboard.MedicineOutOfStock}}</h1>
                 </div>
                 <div class="dashboard_progress" ">
                     <svg>
@@ -130,8 +130,8 @@
             <span class="material-symbols-sharp">shopping_bag</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Total Sales</h3>
-                    <h1>$ 3,000</h1>
+                    <h3>Total Purchase</h3>
+                    <h1 ng-model="dashboard.PurchaseCount">{{dashboard.PurchaseCount}}</h1>
                 </div>
                 <div class="dashboard_progress" ">
                     <svg>
@@ -151,55 +151,25 @@
 
     <div class="second-row">
         <div class="recent-sales">
-            <h2>Recent Sales</h2>
-            <table>
+            <h2>Expired Medicines</h2>
+            <table class="">
                 <thead>
                     <tr>
                         <th scope="col">Medicine Name</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Total</th>
+                        <th scope="col">Packing</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Expiry Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr @*ng-repeat="medicine in medicines"*@>
-                        @*<td style="width: 100%;">
-                                <select class="form-select" aria-label="Default select example"
-                                        ng-model="medicine.MedicineId"
-                                        ng-options="med.MedicineId as med.MedicineName for med in MedicineList"
-                                        ng-change="setMedicineDetails(medicine)" ng-required="true">
-                                </select>
-                            </td>
-                            <td><input type="text" ng-model="medicine.PackingType" disabled></td>
-                            <td><input type="text" ng-model="medicine.Stock" disabled style="width: 70px;"></td>
-                            <td><input type="number" min="1" max="{{medicine.Stock}}" ng-model="medicine.Quantity" ng-change="updateTotalAmount(medicine)"></td>
-                            <td><input type="number" min="1" ng-model="medicine.Price" ng-change="updateTotalAmount(medicine)" disabled></td>
-                            <td style="width:50%"><input type="text" ng-model="medicine.TotalAmount" disabled style="width: 85%;"></td>
-                            <td><i class="fs-5 bi bi-plus-lg mx-1" ng-click="addMedicine()"></i><i class="bi bi-trash3-fill" ng-click="removeMedicine($index)"></i></td>
-                        *@
-                        <td>MedName1</td>
-                        <td>20</td>
-                        <td>Rs 1,000</td>
-                        <td>Rs 20,000</td>
+                    <tr ng-if="dashboard.ExpiredMedicines.length >0" ng-repeat="(key, value) in dashboard.ExpiredMedicines">
+                        <td ng-model="value.MedicineName">{{value.MedicineName}}</td>
+                        <td ng-model="value.PackingType">{{value.PackingType}}</td>
+                        <td ng-model="value.CreatedDate">{{value.CreatedDate}}</td>
+                        <td ng-model="value.ExpiryDate">{{value.ExpiryDate}}</td>
                     </tr>
-                    @**@
-                    <tr>
-                        <td>MedName1</td>
-                        <td>20</td>
-                        <td>Rs 1,000</td>
-                        <td>Rs 20,000</td>
-                    </tr>
-                    <tr>
-                        <td>MedName1</td>
-                        <td>20</td>
-                        <td>Rs 1,000</td>
-                        <td>Rs 20,000</td>
-                    </tr>
-                    <tr>
-                        <td>MedName1</td>
-                        <td>20</td>
-                        <td>Rs 1,000</td>
-                        <td>Rs 20,000</td>
+                    <tr ng-if="dashboard.ExpiredMedicines.length ===0">
+                        <td colspan="4" style="text-align: center;">No Data Found</td>
                     </tr>
                 </tbody>
             </table>
@@ -211,40 +181,22 @@
         <div class="stock-notification">
             <h2>New in Stock</h2>
             <div class="updates">
-                <div class="update">
+                <div class="update" ng-if="dashboard.RecentMedicines.length >0" ng-repeat="(key, value) in dashboard.RecentMedicines">
                     <div class="circle-image">
                         A
                     </div>
                     <div class="message">
                         <p>
-                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
+                            <b id="medicine_name" ng-model="value.MedicineName">{{value.MedicineName}}</b> has been add to the stock.
                         </p>
-                        <small>22/04/2023</small>
+                        <small ng-model="value.MedicineName">{{value.CreatedDate}}</small>
                     </div>
                 </div>
-                <div class="update">
-                    <div class="circle-image">
-                        A
-                    </div>
-                    <div class="message">
-                        <p>
-                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
-                        </p>
-                        <small>22/04/2023</small>
-                    </div>
-                </div>
-                <div class="update">
-                    <div class="circle-image">
-                        A
-                    </div>
-                    <div class="message">
-                        <p>
-                            <b id="medicine_name">Acephatamole</b> has been add to the stock.
-                        </p>
-                        <small>22/04/2023</small>
-                    </div>
+                <div ng-if="dashboard.RecentMedicines.length ===0" class="empty-stock">
+                    Nothing new in stock.
                 </div>
             </div>
         </div>
 
     </div>
+</div>

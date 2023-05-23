@@ -1,11 +1,12 @@
-app.controller("DashBoardController", function ($scope, $http) {
+app.controller("DashboardController", function ($scope, $http) {
 
     $scope.GetDashboardData = function () {
         $http({
             method: 'GET',
             url: '/Home/GetDashboardData'
         }).then(function (response) {
-            $scope.data = response.data;
+            
+            $scope.dashboard = response.data;
         }, function (response) {
             $scope.showError = true;
             $scope.errorMessage = "Error while data fetch. Contact Admin.";

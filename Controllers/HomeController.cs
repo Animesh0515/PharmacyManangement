@@ -25,7 +25,7 @@ namespace PharmacyManagement.Controllers
             return View();
         }
 
-        public DashBoardModel GetDashboardData()
+        public ActionResult GetDashboardData()
         {
             DashBoardModel model= new DashBoardModel();
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -125,7 +125,7 @@ namespace PharmacyManagement.Controllers
 
                     }
 
-                    return model;
+                    return Json(model, JsonRequestBehavior.AllowGet);
                 }
             }
         }

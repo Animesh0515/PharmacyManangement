@@ -80,7 +80,6 @@ namespace PharmacyManagement.Controllers
                                 medicinelst.Add(medicine);
                             }
                             return Json(medicinelst, JsonRequestBehavior.AllowGet);
-
                         }
                     }
                 }

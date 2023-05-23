@@ -53,7 +53,6 @@ namespace PharmacyManagement.Controllers
                                 userlst.Add(user);
                             }
                             return Json(userlst, JsonRequestBehavior.AllowGet);
-
                         }
                     }
                 }
