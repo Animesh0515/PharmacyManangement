@@ -34,7 +34,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Select UserId,UserName,Password,Role from users where username='"+model.Username+"' and DeletedFlag='N'";
+                    string query = "Select UserId,UserName,Password,Role, Image from users where username='"+model.Username+"' and DeletedFlag='N'";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -50,6 +50,7 @@ namespace PharmacyManagement.Controllers
                                         Session["UserId"] = int.Parse(reader[0].ToString());
                                         Session["Username"] = reader[1].ToString();
                                         Session["Role"] = reader[3].ToString();
+                                        Session["ProfilePicture"] = (reader[4].ToString() != null) ? reader[4].ToString() : "/Assets/Profile/Default.png";
                                         Session["IsLoggedIn"] = true;
                                         return true;
                                     }

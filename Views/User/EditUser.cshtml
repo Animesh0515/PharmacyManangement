@@ -10,7 +10,6 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     <script src="~/Scripts/App/UserController.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <style>
         .form-control {
             width: 70% !important;
@@ -20,7 +19,7 @@
 </head>
 <div ng-app="myApp">
     <div class="bg-dark">
-        <h2 style="color: white; text-align: -webkit-center;">Edit Medicine</h2>
+        <h2 style="color: white; text-align: -webkit-center;">Edit Users</h2>
     </div>
     <div ng-controller="UserController" ng-init="getUser()">
         <div class="alert alert-danger" role="alert" ng-if="showError">

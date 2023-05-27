@@ -11,7 +11,6 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/App/app.js"></script>
     <script src="~/Scripts/App/MedicineController.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <style>
         .form-control {
             width: 70% !important;
@@ -25,7 +24,7 @@
 </head>
 <div ng-app="myApp">
     <div class="bg-dark">
-        <h2 style="color: white; text-align: -webkit-center;">Expired Medicines</h2>
+        <h2 style="color: white; text-align: center;">Expired Medicines</h2>
     </div>
     <div ng-controller="MedicineController" ng-init="getExpiredMedicine()">
         <div class="alert alert-danger" role="alert" ng-if="showMedicineError">

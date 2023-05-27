@@ -38,11 +38,10 @@
                         <circle cx="38" cy="38" r="36" class="sales_circle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.MedicinePercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
@@ -58,91 +57,86 @@
                         <circle cx="38" cy="38" r="36" class="users_circle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.CustomerPercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
         <div class="purchase">
-            <span class="material-symbols-sharp">shopping_bag</span>
+            <span class="material-symbols-sharp" style="background-color:#f34848">business</span>
             <div class="middle">
                 <div class="left">
                     <h3>Suppliers</h3>
-                    <h1 ng-model="dashboard.SupplierCount">{{dashboard.CustomerCount}}</h1>
+                    <h1 ng-model="dashboard.SupplierCount">{{dashboard.SupplierCount}}</h1>
                 </div>
-                <div class="dashboard_progress" ">
+                <div class="dashboard_progress">
                     <svg>
                         <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.SupplierPercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
         <div class="purchase">
-            <span class="material-symbols-sharp">shopping_bag</span>
+            <span class="material-symbols-sharp" style="background-color:#35ba3c">sell</span>
             <div class="middle">
                 <div class="left">
                     <h3>Total Sales</h3>
                     <h1 ng-model="dashboard.SalesCount">{{dashboard.SalesCount}}</h1>
                 </div>
-                <div class="dashboard_progress" ">
+                <div class="dashboard_progress">
                     <svg>
                         <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.SalesPercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
         <div class="purchase">
-            <span class="material-symbols-sharp">shopping_bag</span>
+            <span class="material-symbols-sharp">exclamation</span>
             <div class="middle">
                 <div class="left">
                     <h3>Out of Stock</h3>
                     <h1 ng-model="dashboard.MedicineOutOfStock">{{dashboard.MedicineOutOfStock}}</h1>
                 </div>
-                <div class="dashboard_progress" ">
+                <div class="dashboard_progress">
                     <svg>
                         <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.OutOfStockPercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
         <div class="purchase">
-            <span class="material-symbols-sharp">shopping_bag</span>
+            <span class="material-symbols-sharp" style="background-color:#e46d21">more</span>
             <div class="middle">
                 <div class="left">
                     <h3>Total Purchase</h3>
                     <h1 ng-model="dashboard.PurchaseCount">{{dashboard.PurchaseCount}}</h1>
                 </div>
-                <div class="dashboard_progress" ">
+                <div class="dashboard_progress">
                     <svg>
                         <circle cx="38" cy="38" r="36" class="purchase_cicle"></circle>
                     </svg>
                     <div class="number">
-                        <p>81%</p>
+                        <p>{{dashboard.PurchasePercent}}%</p>
                     </div>
                 </div>
             </div>
-            <small class="text_muted">Last 24 hrs</small>
         </div>
         <!--End of sales report for dashboard-->
 
@@ -174,7 +168,7 @@
                 </tbody>
             </table>
             <div class="centered-link">
-                <a href="#">Show All</a>
+                <a href="/Medicine/ExpiredMedicine">Show All</a>
             </div>
         </div>
 
