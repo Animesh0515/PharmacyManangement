@@ -66,7 +66,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.CustomerCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData)/totalData;
-                            model.CustomerPercent = (totalData == 0) ? 100 : percent;
+                            model.CustomerPercent = (totalData == 0) ? 100 : (int)Math.Round(percent,0);
 
                         }
 
@@ -88,7 +88,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.SupplierCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.SupplierPercent = (totalData == 0) ? 100 : percent;
+                            model.SupplierPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -109,7 +109,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.MedicineCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.MedicinePercent = (totalData == 0) ? 100 : percent;
+                            model.MedicinePercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -129,7 +129,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.MedicineOutOfStock;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.OutOfStockPercent = (totalData == 0) ? 100 : percent;
+                            model.OutOfStockPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
                         }
 
                         reader.NextResult();
@@ -147,7 +147,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.SalesCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.SalesPercent = (totalData == 0) ? 100 : percent;
+                            model.SalesPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
                         }
 
                         reader.NextResult();
@@ -166,7 +166,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.PurchaseCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.PurchasePercent = (totalData == 0) ? 100 :percent;
+                            model.PurchasePercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
