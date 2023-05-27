@@ -201,6 +201,8 @@ small {
 .centered-link {
     display: block;
     text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 /* Stock notification */
