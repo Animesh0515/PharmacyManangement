@@ -182,7 +182,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT m.MedicineId, m.MedicineName, m.Description, m.PackingType  FROM Medicines m INNER JOIN MedicinePurchased mp ON m.MedicineId = mp.MedicineId WHERE m.DeletedFlag = 'N' and mp.ExpiryDate < '" + DateTime.Now.ToString("yyyy-MM-dd") + "' GROUP BY m.MedicineId, m.MedicineName, m.Description, m.PackingType;"; //getting all customer data that are not deleted. DeletedFlag='N' denotes not deleted.
+                    string query = "SELECT m.MedicineId, m.MedicineName, m.Description, m.PackingType  FROM Medicines m INNER JOIN MedicinePurchased mp ON m.MedicineId = mp.MedicineId WHERE m.DeletedFlag = 'N' and mp.ExpiryDate < '" + DateTime.Now.ToString("yyyy-MM-dd") + "' GROUP BY m.MedicineId, m.MedicineName, m.Description, m.PackingType;"; 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
