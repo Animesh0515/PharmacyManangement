@@ -6,9 +6,6 @@
             method: 'Get',
             url: '/Profile/GetProfile'
         }).then(function (response) {
-            console.log("hello");
-            console.log(response);
-
             $scope.Profile = response.data;
         }, function () {
             $scope.showError = true;
@@ -191,7 +188,7 @@
     //event listerner that gets invoked when file is chosen
     function addFileListener() {
         angular.element(document.querySelector("#formFile")).on("change", function (event) {
-            $scope.$apply(function () {
+                 
                 var file = event.target.files[0];
                 var validImageTypes = ["image/jpeg", "image/png", "image/gif"];
                 if (validImageTypes.indexOf(file.type) === -1) {
@@ -203,7 +200,6 @@
                 } else {
                     $scope.file = file;
                 }
-            });
         });
     }
 

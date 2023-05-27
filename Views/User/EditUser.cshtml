@@ -72,7 +72,13 @@
                         <td><input type="text" class="form-control" ng-model="value.Email" value={{value.Email}} ng-disabled="!value.editing"></td>
                         <td><input type="text" class="form-control" ng-model="value.Username" value={{value.Username}} ng-disabled="!value.editing"></td>
                         <td><input type="password" class="form-control" ng-model="value.Password" value={{value.Password}} ng-disabled="!value.editing"></td>
-                        <td><input type="text" class="form-control" ng-model="value.Role" value={{value.Role}} ng-disabled="!value.editing"></td>
+                        <td>
+                            <select class="form-select" ng-model="value.Role" aria-label="Select" ng-disabled="!value.editing">
+                                <option value="A">Admin</option>
+                                <option value="P">Pharmacist</option>
+                                <option value="C">Cashier</option>
+                            </select>
+                        </td>
                         <td>
                             <a>
                                 <i class="fs-5 bi-pencil-square" style="color: #0d6efd;" ng-click="editUser(value)" ng-show="!value.editing"></i>
