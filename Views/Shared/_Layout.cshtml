@@ -5,6 +5,11 @@
     //var session = SessionHelper.GetSession();
     var username = Session["Username"];
     var picture = Session["ProfilePicture"];
+    if (Session["ProfilePicture"] == null || Session["ProfilePicture"] == "")
+    {
+        picture = "/Assets/Profile/Default.png";
+    }
+
 
 }
 
@@ -161,7 +166,7 @@
                     <hr>
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="@picture" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                            <img src="@picture" width="30" height="30" class="rounded-circle">
                             <span class="d-none d-sm-inline mx-1">@username</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
@@ -169,7 +174,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            <li><a class="dropdown-item" href="/Account/SignOut">Sign out</a></li>
                         </ul>
                     </div>
                 </div>
