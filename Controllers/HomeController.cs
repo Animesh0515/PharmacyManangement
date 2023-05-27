@@ -27,7 +27,7 @@ namespace PharmacyManagement.Controllers
 
         public ActionResult GetDashboardData()
         {
-            DashBoardModel model= new DashBoardModel();
+            DashBoardModel model = new DashBoardModel();
             DateTime current = DateTime.Today;
             string today = current.ToString("yyyy-MM-dd");
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -48,9 +48,9 @@ namespace PharmacyManagement.Controllers
                         "Select MedicineName, PackingType, mp.CreatedDate, ExpiryDate from Medicines m join MedicinePurchased mp on m.MedicineId=mp.MedicineId where ExpiryDate < CONVERT(DATE, GETDATE()) and m.DeletedFlag='N' and mp.DeletedFlag='N';" +
                         "select MedicineName, mp.CreatedDate from Medicines m join MedicinePurchased mp on m.MedicineId=mp.MedicineId where mp.CreatedDate > DATEADD(DAY, -7, GETDATE());";
 
-                using (SqlCommand command= new SqlCommand(queries,conn))       
-                { 
-                    command.CommandType=CommandType.Text;
+                using (SqlCommand command = new SqlCommand(queries, conn))
+                {
+                    command.CommandType = CommandType.Text;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -65,8 +65,8 @@ namespace PharmacyManagement.Controllers
                         {
                             float totalData = model.CustomerCount;
                             int todayData = reader.GetInt32(0);
-                            float percent = (100 * todayData)/totalData;
-                            model.CustomerPercent = (totalData == 0) ? 100 : percent;
+                            float percent = (100 * todayData) / totalData;
+                            model.CustomerPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -77,9 +77,9 @@ namespace PharmacyManagement.Controllers
                         if (reader.Read())
                         {
                             model.SupplierCount = reader.GetInt32(0);
-                            
+
                         }
-                       
+
                         reader.NextResult();
 
                         // Process the second query result
@@ -88,7 +88,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.SupplierCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.SupplierPercent = (totalData == 0) ? 100 : (float)Math.Round(percent, 2);
+                            model.SupplierPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -98,9 +98,9 @@ namespace PharmacyManagement.Controllers
                         if (reader.Read())
                         {
                             model.MedicineCount = reader.GetInt32(0);
-                            
+
                         }
-                        
+
                         reader.NextResult();
 
                         // Process the third query result
@@ -109,7 +109,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.MedicineCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.MedicinePercent = (totalData == 0) ? 100 : (float)Math.Round(percent, 2);
+                            model.MedicinePercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -119,9 +119,9 @@ namespace PharmacyManagement.Controllers
                         if (reader.Read())
                         {
                             model.MedicineOutOfStock = reader.GetInt32(0);
-                            
+
                         }
-                        
+
                         reader.NextResult();
 
                         if (reader.Read())
@@ -129,17 +129,17 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.MedicineOutOfStock;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.OutOfStockPercent = (totalData == 0) ? 100 : (float)Math.Round(percent, 2);
+                            model.OutOfStockPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
                         }
 
                         reader.NextResult();
 
                         if (reader.Read())
                         {
-                            model.SalesCount= reader.GetInt32(0);
-                            
+                            model.SalesCount = reader.GetInt32(0);
+
                         }
-                        
+
                         reader.NextResult();
 
                         if (reader.Read())
@@ -147,7 +147,7 @@ namespace PharmacyManagement.Controllers
                             float totalData = model.SalesCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.SalesPercent = (totalData == 0) ? 100 : (float)Math.Round(percent, 2);
+                            model.SalesPercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
                         }
 
                         reader.NextResult();
@@ -155,18 +155,18 @@ namespace PharmacyManagement.Controllers
 
                         if (reader.Read())
                         {
-                            model.PurchaseCount= reader.GetInt32(0);
-                            
+                            model.PurchaseCount = reader.GetInt32(0);
+
                         }
-                        
+
                         reader.NextResult();
-                        
+
                         if (reader.Read())
                         {
                             float totalData = model.PurchaseCount;
                             int todayData = reader.GetInt32(0);
                             float percent = (100 * todayData) / totalData;
-                            model.PurchasePercent = (totalData == 0) ? 100 : (float)Math.Round(percent, 2);
+                            model.PurchasePercent = (totalData == 0) ? 100 : (int)Math.Round(percent, 0);
 
                         }
 
@@ -175,24 +175,24 @@ namespace PharmacyManagement.Controllers
 
                         while (reader.Read())
                         {
-                            ExpiredMedicine expiredMed= new ExpiredMedicine();
-                            expiredMed.MedicineName= reader.GetString(0);
-                            expiredMed.PackingType= reader.GetString(1);
-                            expiredMed.CreatedDate= reader.GetDateTime(2).ToString("dd-MM-yyyy");
-                            expiredMed.ExpiryDate= reader.GetDateTime(3).ToString("dd-MM-yyyy");
-                            
+                            ExpiredMedicine expiredMed = new ExpiredMedicine();
+                            expiredMed.MedicineName = reader.GetString(0);
+                            expiredMed.PackingType = reader.GetString(1);
+                            expiredMed.CreatedDate = reader.GetDateTime(2).ToString("dd-MM-yyyy");
+                            expiredMed.ExpiryDate = reader.GetDateTime(3).ToString("dd-MM-yyyy");
+
                             model.ExpiredMedicines.Add(expiredMed);
                         }
-                        
+
                         reader.NextResult();
 
-                       
+
                         while (reader.Read())
                         {
                             MedicineModel medicine = new MedicineModel();
-                            medicine.MedicineName= reader.GetString(0);
-                            medicine.CreatedDate= reader.GetDateTime(1).ToString();
-                            
+                            medicine.MedicineName = reader.GetString(0);
+                            medicine.CreatedDate = reader.GetDateTime(1).ToString();
+
                             model.RecentMedicines.Add(medicine);
                         }
 

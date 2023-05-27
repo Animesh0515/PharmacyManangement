@@ -30,7 +30,7 @@ namespace PharmacyManagement.Controllers
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "Insert into Medicines (MedicineName, Description, Price, CreatedDate, CreatedBy, DeletedFlag, PackingType) values('" + model.MedicineName + "','" + model.Description + "','" + model.Price + "','" + DateTime.Now + "','" + (int)Session["UserId"] + "','N', '"+model.PackingType+"', '" + "')";
+                    string query = "Insert into Medicines (MedicineName, Description, Price, CreatedDate, CreatedBy, DeletedFlag, PackingType, Quantity) values('" + model.MedicineName + "','" + model.Description + "','" + model.Price + "','" + DateTime.Now + "','" + (int)Session["UserId"] + "','N', '"+model.PackingType+"', '0')";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;

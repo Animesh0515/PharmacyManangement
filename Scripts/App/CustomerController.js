@@ -131,12 +131,12 @@
     $scope.CustomerName = 'CustomerName';
 
     $scope.sortAsc = function () {
-        $scope.CustomerName = 'CustomerName';
+        $scope.Name = 'CustomerName';
         //$scope.reverse = false;
     };
 
     $scope.sortDesc = function () {
-        $scope.CustomerName = '-CustomerName';
+        $scope.Name = '-CustomerName';
         //$scope.reverse = true;
     };
 
