@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace PharmacyManagement.Controllers
 {
-    public class SalesController : Controller
+    public class SalesController : BaseController
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
 
