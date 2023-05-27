@@ -23,6 +23,9 @@ namespace PharmacyManagement.Controllers
 
         public ActionResult Login()
         {
+            // Clear the session
+            Session.Clear();
+
             return View();
         }
         [HttpPost]
@@ -111,4 +114,6 @@ namespace PharmacyManagement.Controllers
             }
         }
     }
+
+
 }
